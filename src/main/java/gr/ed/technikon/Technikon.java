@@ -58,22 +58,8 @@ public class Technikon {
         
         4. Reports // to idio kai edw
 
-        oti allo prokuspei to prosthetoume
-        
+        oti allo prokuspei to prosthetoume  
         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    
     }
 }
