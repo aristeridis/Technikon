@@ -7,7 +7,7 @@ public class Technikon {
         System.out.println("1. Admin");
         System.out.println("2. Owner");
         System.out.println("3. Exit");
-        System.out.println("Nikos Koukos");
+        System.out.println("NIKOS KOUKOS");
         
     /*   Admin menu
         1. Owner Management
