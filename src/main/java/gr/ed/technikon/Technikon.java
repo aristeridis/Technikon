@@ -8,7 +8,7 @@ public class Technikon {
         System.out.println("2. Owner");
         System.out.println("3. Exit");
         System.out.println("NIKOS KOUKOS");
-        System.out.println("Vlakeia to git");
+        System.out.println(" Poly megalh Vlakeia to git");
         
     /*   Admin menu
         1. Owner Management
