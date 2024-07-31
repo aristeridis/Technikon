@@ -17,7 +17,7 @@ public class OwnerService {
     }
 
     // Create a new owner
-    public Owner createOwner(int vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, String password) throws CustomException {
+    public Owner createOwner(long vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, String password, int id) throws CustomException {
         if (owners.stream().anyMatch(owner -> owner.getVatNumber() == vatNumber)) {
             throw new CustomException("VAT number already exists");
         }
@@ -25,13 +25,13 @@ public class OwnerService {
             throw new CustomException("Email already exists");
         }
         
-        Owner owner = new Owner(vatNumber, name, surname, address, phoneNumber, email, username, password);
+        Owner owner = new Owner(vatNumber, id, name, surname, address, phoneNumber, email, username, password);
         owners.add(owner);
         return owner;
     }
 
         // Searching for an owner by VAT number
-    public Owner searchOwnerByVATNumber(int vatNumber) {
+    public Owner searchOwnerByVATNumber(long vatNumber) {
         return owners.stream()
                      .filter(owner -> owner.getVatNumber() == vatNumber)
                      .findFirst()
@@ -48,7 +48,7 @@ public class OwnerService {
     
     
    // Updating Owner
-    public void updateOwner(int vatNumber, String address, String email, String password) {
+    public void updateOwner(long vatNumber, String address, String email, String password) {
         Owner owner = owners.stream()
                             .filter(o -> o.getVatNumber() == vatNumber)
                             .findFirst()
@@ -60,7 +60,7 @@ public class OwnerService {
     }
 
     // Delete an owner
-    public void deleteOwner(int vatNumber) {
+    public void deleteOwner(long vatNumber) {
         Owner owner = owners.stream()
                             .filter(o -> o.getVatNumber() == vatNumber)
                             .findFirst()
