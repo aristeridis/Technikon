@@ -1,5 +1,6 @@
 package gr.ed.technikon.services;
 
+import gr.ed.technikon.exceptions.CustomException;
 import gr.ed.technikon.exceptions.OwnerNotFoundException;
 import gr.ed.technikon.models.Owner;
 
@@ -16,12 +17,12 @@ public class OwnerService {
     }
 
     // Create a new owner
-    public Owner createOwner(int vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, String password) {
+    public Owner createOwner(int vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, String password) throws CustomException {
         if (owners.stream().anyMatch(owner -> owner.getVatNumber() == vatNumber)) {
-            throw new IllegalArgumentException("VAT number already exists");
+            throw new CustomException("VAT number already exists");
         }
         if (owners.stream().anyMatch(owner -> owner.getEmail().equals(email))) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new CustomException("Email already exists");
         }
         
         Owner owner = new Owner(vatNumber, name, surname, address, phoneNumber, email, username, password);
@@ -68,7 +69,7 @@ public class OwnerService {
         owners.remove(owner);
     }
 
-// excepttions avrio 
+
 
     // List all owners // logika tha allajei molis valoume vash
     public List<Owner> listAllOwners() {
