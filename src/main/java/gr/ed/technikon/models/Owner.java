@@ -100,13 +100,13 @@ public class Owner {
 
     @Override
     public String toString() {
-        return "Owner{" + "VATNumber=" + VatNumber + 
+        return "Owner{" + "VatNumber=" + VatNumber + 
+                ", Id=" + Id + 
                 ", Name=" + Name + ", SurName=" + SurName + 
                 ", Address=" + Address + 
                 ", PhoneNumber=" + PhoneNumber + 
                 ", Email=" + Email + 
-                ", Username=" + Username + 
-                ", password=" + password + '}';
+                ", Username=" + Username + ", password=" + password + '}';
     }
-    
+
 }
