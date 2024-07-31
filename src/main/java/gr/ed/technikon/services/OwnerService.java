@@ -25,7 +25,7 @@ public class OwnerService {
             throw new CustomException("Email already exists");
         }
         
-        Owner owner = new Owner(vatNumber, ownerid, name, surname, address, phoneNumber, email, username, password);
+        Owner owner = new Owner(vatNumber, ownerId, name, surname, address, phoneNumber, email, username, password);
         owners.add(owner);
         return owner;
     }
