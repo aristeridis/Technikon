@@ -17,7 +17,7 @@ public class OwnerService {
     }
 
     // Create a new owner
-    public Owner createOwner(long vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, String password, int id) throws CustomException {
+    public Owner createOwner(long vatNumber, int ownerId, String name, String surname, String address, String phoneNumber, String email, String username, String password, int id, int ownerid) throws CustomException {
         if (owners.stream().anyMatch(owner -> owner.getVatNumber() == vatNumber)) {
             throw new CustomException("VAT number already exists");
         }
@@ -25,7 +25,7 @@ public class OwnerService {
             throw new CustomException("Email already exists");
         }
         
-        Owner owner = new Owner(vatNumber, id, name, surname, address, phoneNumber, email, username, password);
+        Owner owner = new Owner(vatNumber, ownerid, name, surname, address, phoneNumber, email, username, password);
         owners.add(owner);
         return owner;
     }
