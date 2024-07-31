@@ -11,8 +11,8 @@ public class Owner {
     private String Username;
     private String password;
 
-    public Owner(int VATNumber, String Name, String SurName, String Address, String PhoneNumber, String Email, String Username, String password) {
-        this.VatNumber = VATNumber;
+    public Owner(int VatNumber, String Name, String SurName, String Address, String PhoneNumber, String Email, String Username, String password) {
+        this.VatNumber = VatNumber;
         this.Name = Name;
         this.SurName = SurName;
         this.Address = Address;
@@ -22,12 +22,12 @@ public class Owner {
         this.password = password;
     }
 
-    public int getVATNumber() {
+    public int getVatNumber() {
         return VatNumber;
     }
 
-    public void setVATNumber(int VATNumber) {
-        this.VatNumber = VATNumber;
+    public void setVATNumber(int VatNumber) {
+        this.VatNumber = VatNumber;
     }
 
     public String getName() {
