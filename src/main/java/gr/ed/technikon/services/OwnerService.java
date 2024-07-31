@@ -38,7 +38,7 @@ public class OwnerService {
                      .orElseThrow(() -> new OwnerNotFoundException("Owner with VAT number " + vatNumber + " not found"));
     }
 
-    // Search for an owner by email
+    // Searching for an owner by email
     public Owner searchOwnerByEmail(String email) {
         return owners.stream()
                      .filter(owner -> owner.getEmail().equals(email))
