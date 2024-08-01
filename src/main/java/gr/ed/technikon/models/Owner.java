@@ -1,112 +1,52 @@
 package gr.ed.technikon.models;
 
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@ToString
+
+
+
 public class Owner {
     
-    private long VatNumber;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long OwnerId;
+    
+    @Column(unique=true)
+    private long VatNumber;
+    
+    @Column(nullable = false)
     private String Name;
+    @Column(nullable = false)
     private String SurName;
     private String Address;
+    @Column(nullable = false)
     private String PhoneNumber;
+    @Column(nullable = false,unique = true)
     private String Email;
+    @Column(nullable = false)
     private String Username;
+    @Column(nullable = false)
     private String password;
-
-    public Owner(long VatNumber, long Id , String Name, String SurName, String Address, String PhoneNumber, String Email, String Username, String password) {
-        this.VatNumber = VatNumber;
-        this.OwnerId = Id;
-        this.Name = Name;
-        this.SurName = SurName;
-        this.Address = Address;
-        this.PhoneNumber = PhoneNumber;
-        this.Email = Email;
-        this.Username = Username;
-        this.password = password;
-    }
-
-    public long getVatNumber() {
-        return VatNumber;
-    }
-
-    public void setVATNumber(long VatNumber) {
-        this.VatNumber = VatNumber;
-    }
-
-    public long getOwnerId() {
-        return OwnerId;
-    }
-
-    public void setOwnerId(long OwnerId) {
-        this.OwnerId = OwnerId;
-    }
-
     
+    @OneToMany(mappedBy= "owner")
+    private List<Property>  propertyList;
     
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String Name) {
-        this.Name = Name;
-    }
-
-    public String getSurName() {
-        return SurName;
-    }
-
-    public void setSurName(String SurName) {
-        this.SurName = SurName;
-    }
-
-    public String getAddress() {
-        return Address;
-    }
-
-    public void setAddress(String Address) {
-        this.Address = Address;
-    }
-
-    public String getPhoneNumber() {
-        return PhoneNumber;
-    }
-
-    public void setPhoneNumber(String PhoneNumber) {
-        this.PhoneNumber = PhoneNumber;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String Email) {
-        this.Email = Email;
-    }
-
-    public String getUsername() {
-        return Username;
-    }
-
-    public void setUsername(String Username) {
-        this.Username = Username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "Owner{" + "VatNumber=" + VatNumber + 
-                ", Id=" + OwnerId + 
-                ", Name=" + Name + ", SurName=" + SurName + 
-                ", Address=" + Address + 
-                ", PhoneNumber=" + PhoneNumber + 
-                ", Email=" + Email + 
-                ", Username=" + Username + ", password=" + password + '}';
-    }
-
+    @OneToMany(mappedBy= "owner")
+    private List<Repair>  repairList;
 }
