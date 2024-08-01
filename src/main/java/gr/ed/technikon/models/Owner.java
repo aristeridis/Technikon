@@ -3,7 +3,7 @@ package gr.ed.technikon.models;
 public class Owner {
     
     private long VatNumber;
-    private int OwnerId;
+    private long OwnerId;
     private String Name;
     private String SurName;
     private String Address;
@@ -12,7 +12,7 @@ public class Owner {
     private String Username;
     private String password;
 
-    public Owner(long VatNumber, int Id , String Name, String SurName, String Address, String PhoneNumber, String Email, String Username, String password) {
+    public Owner(long VatNumber, long Id , String Name, String SurName, String Address, String PhoneNumber, String Email, String Username, String password) {
         this.VatNumber = VatNumber;
         this.OwnerId = Id;
         this.Name = Name;
@@ -32,11 +32,11 @@ public class Owner {
         this.VatNumber = VatNumber;
     }
 
-    public int getOwnerId() {
+    public long getOwnerId() {
         return OwnerId;
     }
 
-    public void setOwnerId(int OwnerId) {
+    public void setOwnerId(long OwnerId) {
         this.OwnerId = OwnerId;
     }
 

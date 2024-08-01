@@ -1,28 +1,28 @@
 package gr.ed.technikon.models;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import gr.ed.technikon.enums.RepairType;
 import gr.ed.technikon.enums.RepairStatus;
+import java.util.Date;
 
 public class Repair implements PersistentClass {
 
-    private int repairId;
+    private long repairId;
     private RepairType repairType;
     private String shortDescription;
-    private LocalDate dateOfSubmission;
+    private Date dateOfSubmission;
     private String descriptionOfWork;
-    private LocalDate proposedDateOfStart;
-    private LocalDate proposedDateOfEnd;
+    private Date proposedDateOfStart;
+    private Date proposedDateOfEnd;
     private BigDecimal proposedCost;
     private boolean acceptance;
     private RepairStatus repairStatus;
-    private LocalDate dateOfStart;
-    private LocalDate dateOfEnd;
+    private Date dateOfStart;
+    private Date dateOfEnd;
     private Owner owner;
     private Property property;
 
-    public Repair(int repairId, RepairType repairType, String shortDescription, LocalDate dateOfSubmission, String descriptionOfWork, LocalDate proposedDateOfStart, LocalDate proposedDateOfEnd, BigDecimal proposedCost, boolean acceptance, RepairStatus repairStatus, LocalDate dateOfStart, LocalDate dateOfEnd, Owner owner, Property property) {
+    public Repair(long repairId, RepairType repairType, String shortDescription, Date dateOfSubmission, String descriptionOfWork, Date proposedDateOfStart, Date proposedDateOfEnd, BigDecimal proposedCost, boolean acceptance, RepairStatus repairStatus, Date dateOfStart, Date dateOfEnd, Owner owner, Property property) {
         this.repairId = repairId;
         this.repairType = repairType;
         this.shortDescription = shortDescription;
@@ -39,11 +39,11 @@ public class Repair implements PersistentClass {
         this.property = property;
     }
 
-    public int getRepairId() {
+    public long getRepairId() {
         return repairId;
     }
 
-    public void setRepairId(int repairId) {
+    public void setRepairId(long repairId) {
         this.repairId = repairId;
     }
 
@@ -63,11 +63,11 @@ public class Repair implements PersistentClass {
         this.shortDescription = shortDescription;
     }
 
-    public LocalDate getDateOfSubmission() {
+    public Date getDateOfSubmission() {
         return dateOfSubmission;
     }
 
-    public void setDateOfSubmission(LocalDate dateOfSubmission) {
+    public void setDateOfSubmission(Date dateOfSubmission) {
         this.dateOfSubmission = dateOfSubmission;
     }
 
@@ -79,19 +79,19 @@ public class Repair implements PersistentClass {
         this.descriptionOfWork = descriptionOfWork;
     }
 
-    public LocalDate getProposedDateOfStart() {
+    public Date getProposedDateOfStart() {
         return proposedDateOfStart;
     }
 
-    public void setProposedDateOfStart(LocalDate proposedDateOfStart) {
+    public void setProposedDateOfStart(Date proposedDateOfStart) {
         this.proposedDateOfStart = proposedDateOfStart;
     }
 
-    public LocalDate getProposedDateOfEnd() {
+    public Date getProposedDateOfEnd() {
         return proposedDateOfEnd;
     }
 
-    public void setProposedDateOfEnd(LocalDate proposedDateOfEnd) {
+    public void setProposedDateOfEnd(Date proposedDateOfEnd) {
         this.proposedDateOfEnd = proposedDateOfEnd;
     }
 
@@ -119,19 +119,19 @@ public class Repair implements PersistentClass {
         this.repairStatus = repairStatus;
     }
 
-    public LocalDate getDateOfStart() {
+    public Date getDateOfStart() {
         return dateOfStart;
     }
 
-    public void setDateOfStart(LocalDate dateOfStart) {
+    public void setDateOfStart(Date dateOfStart) {
         this.dateOfStart = dateOfStart;
     }
 
-    public LocalDate getDateOfEnd() {
+    public Date getDateOfEnd() {
         return dateOfEnd;
     }
 
-    public void setDateOfEnd(LocalDate dateOfEnd) {
+    public void setDateOfEnd(Date dateOfEnd) {
         this.dateOfEnd = dateOfEnd;
     }
 
