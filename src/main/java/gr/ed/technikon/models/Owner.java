@@ -44,9 +44,9 @@ public class Owner {
     @Column(nullable = false)
     private String password;
     
-    @OneToMany(mappedBy= "owner")
+    @OneToMany(mappedBy= "ownerClass") 
     private List<Property>  propertyList;
     
-    @OneToMany(mappedBy= "owner")
+    @OneToMany(mappedBy= "ownerClass")
     private List<Repair>  repairList;
 }

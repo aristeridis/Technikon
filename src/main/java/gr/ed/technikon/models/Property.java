@@ -1,14 +1,34 @@
 package gr.ed.technikon.models;
 
 import gr.ed.technikon.enums.PropertyType;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 
 public class Property implements PersistentClass {
-
+      
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "property_id")
     private long propertyId;
     private String address;
     private int yearOfConstruction;
     private PropertyType propertyType;
+    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "ownerId") //na doume ta joins
     private Owner owner;
+    
+    @OneToMany(mappedBy = "property")
+    private List<Repair>  repairList;
 
     public Property(int propertyId, String address, int yearOfConstruction, PropertyType propertyType, Owner owner) {
         this.propertyId = propertyId;
@@ -65,7 +85,8 @@ public class Property implements PersistentClass {
 
     @Override
     public String toString() {
-        return "Property{" + "propertyId=" + propertyId + ", address=" + address + ", yearOfConstruction=" + yearOfConstruction + ", propertyType=" + propertyType + ", owner=" + owner + '}';
+        return "Property{" + "propertyId=" + propertyId + 
+                ", address=" + address + ", yearOfConstruction=" + yearOfConstruction + ", propertyType=" + propertyType + ", owner=" + owner + '}';
     }
-
+    
 }

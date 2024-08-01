@@ -4,23 +4,49 @@ import java.math.BigDecimal;
 import gr.ed.technikon.enums.RepairType;
 import gr.ed.technikon.enums.RepairStatus;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 
 public class Repair implements PersistentClass {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long repairId;
+    
+    @Column(nullable = false)
     private RepairType repairType;
     private String shortDescription;
+    @Column(nullable = false)
     private Date dateOfSubmission;
     private String descriptionOfWork;
+    @Column(nullable = false)
     private Date proposedDateOfStart;
+    @Column(nullable = false)
     private Date proposedDateOfEnd;
+    @Column(nullable = false)
     private BigDecimal proposedCost;
     private boolean acceptance;
     private RepairStatus repairStatus;
+    @Column(nullable = false)
     private Date dateOfStart;
+    @Column(nullable = false)
     private Date dateOfEnd;
+    @Column(nullable = false)
+    @ManyToOne 
+    @JoinColumn(name = "ownerId") //na doume ta joins 
     private Owner owner;
+    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "property_id") //na doume ta joins
     private Property property;
+     
 
     public Repair(long repairId, RepairType repairType, String shortDescription, Date dateOfSubmission, String descriptionOfWork, Date proposedDateOfStart, Date proposedDateOfEnd, BigDecimal proposedCost, boolean acceptance, RepairStatus repairStatus, Date dateOfStart, Date dateOfEnd, Owner owner, Property property) {
         this.repairId = repairId;
