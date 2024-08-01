@@ -10,9 +10,53 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@ToString
 
+public class Property implements PersistentClass {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "property_id")
+    private long propertyId;
+
+    private String address;
+    private int yearOfConstruction;
+    private PropertyType propertyType;
+
+    @ManyToOne
+    @JoinColumn(name = "ownerId", nullable = false)
+    private Owner owner;
+
+    @OneToMany(mappedBy = "property")
+    private List<Repair> repairList;
+
+    public Property(int propertyId, String address, int yearOfConstruction, PropertyType propertyType, Owner owner) {
+        this.propertyId = propertyId;
+        this.address = address;
+        this.yearOfConstruction = yearOfConstruction;
+        this.propertyType = propertyType;
+        this.owner = owner;
+    }
+
+    public long getOwnerVatNumber() {
+        return owner.getVatNumber();
+    }
+
+}
+
+
+
+/*
 public class Property implements PersistentClass {
       
     @Id
@@ -40,6 +84,7 @@ public class Property implements PersistentClass {
 
     public long getPropertyId() {
         return propertyId;
+                          
     }
 
     public void setPropertyId(long propertyId) {
@@ -89,4 +134,5 @@ public class Property implements PersistentClass {
                 ", address=" + address + ", yearOfConstruction=" + yearOfConstruction + ", propertyType=" + propertyType + ", owner=" + owner + '}';
     }
     
-}
+}  
+*/

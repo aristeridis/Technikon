@@ -11,9 +11,83 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@ToString
 
+public class Repair implements PersistentClass {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long repairId;
+
+    @Column(nullable = false)
+    private RepairType repairType;
+    
+    private String shortDescription;
+    
+    @Column(nullable = false)
+    private Date dateOfSubmission;
+    
+    private String descriptionOfWork;
+    
+    @Column(nullable = false)
+    private Date proposedDateOfStart;
+    
+    @Column(nullable = false)
+    private Date proposedDateOfEnd;
+    
+    @Column(nullable = false)
+    private BigDecimal proposedCost;
+    
+    private boolean acceptance;
+    
+    private RepairStatus repairStatus;
+    
+    @Column(nullable = false)
+    private Date dateOfStart;
+    
+    @Column(nullable = false)
+    private Date dateOfEnd;
+
+    @ManyToOne
+    @JoinColumn(name = "ownerId", nullable = false)
+    private Owner owner;
+
+    @ManyToOne
+    @JoinColumn(name = "property_id", nullable = false)
+    private Property property;
+
+    public Repair(long repairId, RepairType repairType, String shortDescription, Date dateOfSubmission, String descriptionOfWork, Date proposedDateOfStart, Date proposedDateOfEnd, BigDecimal proposedCost, boolean acceptance, RepairStatus repairStatus, Date dateOfStart, Date dateOfEnd, Owner owner, Property property) {
+        this.repairId = repairId;
+        this.repairType = repairType;
+        this.shortDescription = shortDescription;
+        this.dateOfSubmission = dateOfSubmission;
+        this.descriptionOfWork = descriptionOfWork;
+        this.proposedDateOfStart = proposedDateOfStart;
+        this.proposedDateOfEnd = proposedDateOfEnd;
+        this.proposedCost = proposedCost;
+        this.acceptance = acceptance;
+        this.repairStatus = repairStatus;
+        this.dateOfStart = dateOfStart;
+        this.dateOfEnd = dateOfEnd;
+        this.owner = owner;
+        this.property = property;
+    }
+
+}
+
+
+
+/*
 public class Repair implements PersistentClass {
 
     @Id
@@ -197,3 +271,4 @@ public class Repair implements PersistentClass {
                 + '}';
     }
 }
+*/
