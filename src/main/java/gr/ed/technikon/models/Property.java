@@ -4,7 +4,7 @@ import gr.ed.technikon.enums.PropertyType;
 
 public class Property implements PersistentClass {
 
-    private int propertyId;
+    private long propertyId;
     private String address;
     private int yearOfConstruction;
     private PropertyType propertyType;
@@ -18,11 +18,11 @@ public class Property implements PersistentClass {
         this.owner = owner;
     }
 
-    public int getPropertyId() {
+    public long getPropertyId() {
         return propertyId;
     }
 
-    public void setPropertyId(int propertyId) {
+    public void setPropertyId(long propertyId) {
         this.propertyId = propertyId;
     }
 

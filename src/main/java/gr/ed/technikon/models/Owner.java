@@ -2,7 +2,8 @@ package gr.ed.technikon.models;
 
 public class Owner {
     
-    private int VatNumber;
+    private long VatNumber;
+    private long OwnerId;
     private String Name;
     private String SurName;
     private String Address;
@@ -11,8 +12,9 @@ public class Owner {
     private String Username;
     private String password;
 
-    public Owner(int VatNumber, String Name, String SurName, String Address, String PhoneNumber, String Email, String Username, String password) {
+    public Owner(long VatNumber, long Id , String Name, String SurName, String Address, String PhoneNumber, String Email, String Username, String password) {
         this.VatNumber = VatNumber;
+        this.OwnerId = Id;
         this.Name = Name;
         this.SurName = SurName;
         this.Address = Address;
@@ -22,14 +24,24 @@ public class Owner {
         this.password = password;
     }
 
-    public int getVatNumber() {
+    public long getVatNumber() {
         return VatNumber;
     }
 
-    public void setVATNumber(int VatNumber) {
+    public void setVATNumber(long VatNumber) {
         this.VatNumber = VatNumber;
     }
 
+    public long getOwnerId() {
+        return OwnerId;
+    }
+
+    public void setOwnerId(long OwnerId) {
+        this.OwnerId = OwnerId;
+    }
+
+    
+    
     public String getName() {
         return Name;
     }
@@ -88,13 +100,13 @@ public class Owner {
 
     @Override
     public String toString() {
-        return "Owner{" + "VATNumber=" + VatNumber + 
+        return "Owner{" + "VatNumber=" + VatNumber + 
+                ", Id=" + OwnerId + 
                 ", Name=" + Name + ", SurName=" + SurName + 
                 ", Address=" + Address + 
                 ", PhoneNumber=" + PhoneNumber + 
                 ", Email=" + Email + 
-                ", Username=" + Username + 
-                ", password=" + password + '}';
+                ", Username=" + Username + ", password=" + password + '}';
     }
-    
+
 }
