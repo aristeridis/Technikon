@@ -11,17 +11,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
-@ToString
+
 
 public class Repair implements PersistentClass {
 
@@ -66,7 +65,7 @@ public class Repair implements PersistentClass {
     @JoinColumn(name = "property_id", nullable = false)
     private Property property;
 
-    public Repair(long repairId, RepairType repairType, String shortDescription, Date dateOfSubmission, String descriptionOfWork, Date proposedDateOfStart, Date proposedDateOfEnd, BigDecimal proposedCost, boolean acceptance, RepairStatus repairStatus, Date dateOfStart, Date dateOfEnd, Owner owner, Property property) {
+   /* public Repair(long repairId, RepairType repairType, String shortDescription, Date dateOfSubmission, String descriptionOfWork, Date proposedDateOfStart, Date proposedDateOfEnd, BigDecimal proposedCost, boolean acceptance, RepairStatus repairStatus, Date dateOfStart, Date dateOfEnd, Owner owner, Property property) {
         this.repairId = repairId;
         this.repairType = repairType;
         this.shortDescription = shortDescription;
@@ -82,7 +81,7 @@ public class Repair implements PersistentClass {
         this.owner = owner;
         this.property = property;
     }
-
+*/
 }
 
 
