@@ -119,14 +119,14 @@ public class IOService implements IOServiceInterface {
                 String[] data = line.split(",");
                 Owner owner = new Owner();
                 owner.setOwnerId(Long.parseLong(data[0].trim()));
-                owner.setUsername(data[2].trim());
-                owner.setPassword(data[3].trim());
-                owner.setVatNumber(Long.parseLong(data[4].trim()));
-                owner.setName(data[5].trim());
-                owner.setSurName(data[6].trim());
-                owner.setAddress(data[7].trim());
-                owner.setPhoneNumber(data[8].trim());
-                owner.setEmail(data[9].trim());
+                owner.setUsername(data[1].trim());
+                owner.setPassword(data[2].trim());
+                owner.setVatNumber(Long.parseLong(data[3].trim()));
+                owner.setName(data[4].trim());
+                owner.setSurName(data[5].trim());
+                owner.setAddress(data[6].trim());
+                owner.setPhoneNumber(data[7].trim());
+                owner.setEmail(data[8].trim());
                 ownerRepository.save(owner);
                 rowsRead++;
             }
@@ -146,13 +146,12 @@ public class IOService implements IOServiceInterface {
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
                 Property property = new Property();
-                property.setPropertyId(Long.parseLong(data[0].trim()));
-                property.setPropertyId(Long.parseLong(data[2].trim()));
-                property.setAddress(data[3].trim());
-                property.setYearOfConstruction(Integer.parseInt(data[4].trim()));
-                Optional<Owner> owner = ownerRepository.findByVatNumber(Long.valueOf(data[5].trim()));
+                property.setPropertyId(Integer.parseInt(data[1].trim()));
+                property.setAddress(data[2].trim());
+                property.setYearOfConstruction(Integer.parseInt(data[3].trim()));
+                Optional<Owner> owner = ownerRepository.findByVatNumber(Long.valueOf(data[4].trim()));
                 owner.ifPresent(property::setOwner);
-                property.setPropertyType(PropertyType.valueOf(data[6].trim()));
+                property.setPropertyType(PropertyType.valueOf(data[5].trim()));
                 propertyRepository.save(property);
                 rowsRead++;
             }
