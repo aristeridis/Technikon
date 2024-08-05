@@ -1,6 +1,7 @@
 package gr.ed.technikon.Repositories;
 
 import gr.ed.technikon.models.Owner;
+import gr.ed.technikon.utility.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
@@ -12,8 +13,8 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
 
     private final EntityManager entityManager;
 
-    public OwnerRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public OwnerRepository() {
+        entityManager = JPAUtil.getEntityManager();
     }
 
     @Override

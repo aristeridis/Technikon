@@ -1,10 +1,10 @@
 package gr.ed.technikon.Repositories;
 
 import gr.ed.technikon.models.Property;
+import gr.ed.technikon.utility.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
-//import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +13,8 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
 
     private final EntityManager entityManager;
 
-    public PropertyRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public PropertyRepository() {
+        entityManager = JPAUtil.getEntityManager();
     }
 
     @Override
