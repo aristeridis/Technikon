@@ -49,8 +49,10 @@ public class Property implements PersistentClass {
     public long getOwnerVatNumber() {
         return owner.getVatNumber();
     }
-
 }
+    
+
+
 
 
 
