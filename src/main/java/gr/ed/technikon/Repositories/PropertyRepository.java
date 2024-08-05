@@ -18,55 +18,29 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
     }
 
     @Override
-    public Optional<Property> findById(Long id) {
+    public Optional<Property> findById(Long propertyId) {
         try {
-            Property property = entityManager.find(Property.class, id);
+            Property property = entityManager.find(Property.class, propertyId);
             return Optional.ofNullable(property);
         } catch (Exception e) {
-            log.debug("Could not find Property with ID: " + id, e);
+            log.debug("Could not find Property with ID: " + propertyId);
             entityManager.getTransaction().rollback();
         }
         return Optional.empty();
     }
-    
 
-//    @Override
-//    public List<Property> findByDateRange(Date startDate, Date endDate) {
-//        try {
-//            TypedQuery<Property> query = entityManager.createQuery(
-//                    "SELECT p FROM Property p WHERE p.submissionDate BETWEEN :startDate AND :endDate", Property.class);
-//            query.setParameter("startDate", startDate);
-//            query.setParameter("endDate", endDate);
-//            return query.getResultList();
-//        } catch (Exception e) {
-//            log.debug("Could not find Properties within date range", e);
-//        }
-//        return List.of();
-//    }
-//
-//    @Override
-//    public List<Property> findByOwnerId(Long ownerId) {
-//        try {
-//            entityManager.getTransaction().begin();
-//            Property property = entityManager.find(getEntityClass(), ownerId);
-//            entityManager.getTransaction().commit();
-//             return List.of(property);
-//        } catch (Exception e) {
-//            log.debug("Could not find Properties for Owner ID: " + ownerId);
-//            entityManager.getTransaction().rollback();
-//        }
-//        return null;
-//    }
-    
-      @Override
+    @Override
     public List<Property> findByOwnerId(Long ownerId) {
         try {
+            entityManager.getTransaction().begin();
             TypedQuery<Property> query = entityManager.createQuery(
                     "SELECT p FROM Property p WHERE p.owner.id = :ownerId", Property.class); //paizei na einai ownerId
             query.setParameter("ownerId", ownerId);
+            entityManager.getTransaction().commit();
             return query.getResultList();
         } catch (Exception e) {
             log.debug("Could not find Properties for Owner ID: " + ownerId);
+            entityManager.getTransaction().rollback();
         }
         return List.of();
     }
@@ -74,8 +48,9 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
     @Override
     public List<Property> findAll() {
         TypedQuery<Property> query
-			= entityManager.createQuery("from " + getEntityClassName(), getEntityClass());
-		return query.getResultList();
+                = entityManager.createQuery("from " + getEntityClassName(), getEntityClass());
+        return query.getResultList();
+
     }
 
     @Override
@@ -93,9 +68,9 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long propertyId) {
         try {
-            Property property = entityManager.find(Property.class, id);
+            Property property = entityManager.find(Property.class, propertyId);
             if (property != null) {
                 entityManager.getTransaction().begin();
                 entityManager.remove(property);
@@ -103,43 +78,43 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
                 return true;
             }
         } catch (Exception e) {
-            log.debug("Could not delete Property with ID: " + id, e);
+            log.debug("Could not delete Property with ID: " + propertyId);
             entityManager.getTransaction().rollback();
         }
         return false;
     }
-    
+
     @Override
-public Optional<Property> update(Property property) {
-    try {
-        entityManager.getTransaction().begin();
-        Property p = entityManager.find(Property.class, property.getPropertyId());
-        if (p != null) {
-            
-            p.setAddress(property.getAddress());
-            p.setYearOfConstruction(property.getYearOfConstruction());
-            p.setPropertyType(property.getPropertyType());
-            p.setOwner(property.getOwner());
-            
-            entityManager.merge(p);
-            entityManager.getTransaction().commit();
-            return Optional.of(p);
-        } else {
-            log.debug("Property with ID: " + property.getPropertyId() + " not found for update.");
+    public Optional<Property> update(Property property) {
+        try {
+            entityManager.getTransaction().begin();
+            Property p = entityManager.find(Property.class, property.getPropertyId());
+            if (p != null) {
+
+                p.setAddress(property.getAddress());
+                p.setYearOfConstruction(property.getYearOfConstruction());
+                p.setPropertyType(property.getPropertyType());
+                p.setOwner(property.getOwner());
+
+                entityManager.merge(p);
+                entityManager.getTransaction().commit();
+                return Optional.of(p);
+            } else {
+                log.debug("Property with ID: " + property.getPropertyId() + " not found for update.");
+            }
+        } catch (Exception e) {
+            log.debug("Could not update Property", e);
+            entityManager.getTransaction().rollback();
         }
-    } catch (Exception e) {
-        log.debug("Could not update Property", e);
-        entityManager.getTransaction().rollback();
+        return Optional.empty();
     }
-    return Optional.empty();
-}
-    
+
     private Class<Property> getEntityClass() {
-		return Property.class;
-	}
-	
-	private String getEntityClassName() {
-		return Property.class.getName();
-	}
+        return Property.class;
+    }
+
+    private String getEntityClassName() {
+        return Property.class.getName();
+    }
 
 }
