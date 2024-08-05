@@ -9,17 +9,13 @@ import java.util.Properties;
 
 public class JPAUtil {
 
-    private static final String PERSISTENCE_UNIT_NAME = "Persistence";
+    private static final String PERSISTENCE_UNIT_NAME = "PERSISTENCE";
     private static EntityManagerFactory factory;
 
     public static EntityManagerFactory getEntityManagerFactory() {
         if (factory == null) {
-            Properties props = new Properties();
-            try {
-                props.load(new FileInputStream("resources/persistence.properties"));
-            } catch (IOException ex) {
-            }
-            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, props);
+           
+            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         }
         return factory;
     }
