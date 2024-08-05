@@ -62,11 +62,11 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
     public List<Property> findByOwnerId(Long ownerId) {
         try {
             TypedQuery<Property> query = entityManager.createQuery(
-                    "SELECT p FROM Property p WHERE p.owner.id = :ownerId", Property.class);
+                    "SELECT p FROM Property p WHERE p.owner.id = :ownerId", Property.class); //paizei na einai ownerId
             query.setParameter("ownerId", ownerId);
             return query.getResultList();
         } catch (Exception e) {
-            log.debug("Could not find Properties for Owner ID: " + ownerId, e);
+            log.debug("Could not find Properties for Owner ID: " + ownerId);
         }
         return List.of();
     }
@@ -113,17 +113,17 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
 public Optional<Property> update(Property property) {
     try {
         entityManager.getTransaction().begin();
-        Property existingProperty = entityManager.find(Property.class, property.getPropertyId());
-        if (existingProperty != null) {
+        Property p = entityManager.find(Property.class, property.getPropertyId());
+        if (p != null) {
             
-            existingProperty.setAddress(property.getAddress());
-            existingProperty.setYearOfConstruction(property.getYearOfConstruction());
-            existingProperty.setPropertyType(property.getPropertyType());
-            existingProperty.setOwner(property.getOwner());
+            p.setAddress(property.getAddress());
+            p.setYearOfConstruction(property.getYearOfConstruction());
+            p.setPropertyType(property.getPropertyType());
+            p.setOwner(property.getOwner());
             
-            entityManager.merge(existingProperty);
+            entityManager.merge(p);
             entityManager.getTransaction().commit();
-            return Optional.of(existingProperty);
+            return Optional.of(p);
         } else {
             log.debug("Property with ID: " + property.getPropertyId() + " not found for update.");
         }
