@@ -33,29 +33,21 @@ public class PropertyServiceTest {
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 	}
+
 	@Test
-	public void findById(Long id){
-		
-		
-		
-		
-		
-		
-//		List<Property> p=new ArrayList<>();
-//		Owner ownerTest=new Owner(12l,1345673l,"Kostas","Polemis","Platonos 4","23456","kostas@test.gr","kostas","1234kostas",p);
-//		OwnerService owner=new OwnerService(propertyRepository);
-//        Property property = new Property(178223l, "Korai 25", 1992,PropertyType.MAISONETTE,ownerTest);
-//	p.add(property);
-//
-//       when(propertyRepository.findByIds(178223l)).thenReturn(property);
-//               	Property property1Property = propertyRepository.findByIds(178223l);
+	public void findById() {
+		Long propertyId = 44444L;
+		Property property = new Property();
+		property.setPropertyId(propertyId);
+		property.setPropertyType(PropertyType.MAISONETTE);
+		property.setAddress("Kleanthous 4");
+		property.setOwner(new Owner());
 
-//        String result = property.getAddress();
-//        assertEquals(1992, property1Property.getYearOfConstruction());
-//        assertEquals("1", result.getId());
-//        assertEquals("Korai 25",propertyAddress);
-//        assertEquals(178223l, propertyId);
+		when(propertyRepositoryInterface.findById(propertyId)).thenReturn(Optional.of(property));
+		Property pr=new Property();
+		pr.setPropertyId(44444l);
+//		Optional<Property> pr = propertyRepository.findById(propertyId);
 
-        //verify(propertyRepository, times(1)).findById("1");
-}
+		assertEquals(property.getPropertyId(), pr.getPropertyId());
+	}
 }
