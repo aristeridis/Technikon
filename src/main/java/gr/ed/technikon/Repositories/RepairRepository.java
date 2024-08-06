@@ -33,7 +33,17 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
         return List.of();
 
     }
-
+    @Override
+  public Optional<Repair> findById(Long repairId) {
+        try {
+            Repair repair = entityManager.find(Repair.class, repairId);
+            return Optional.ofNullable(repair);
+        } catch (Exception e) {
+            log.debug("Could not find Property with ID: " + repairId);
+            entityManager.getTransaction().rollback();
+        }
+        return Optional.empty();
+    }
     @Override
     public List<Repair> findByDate(Date dateOfStart) {
         try {

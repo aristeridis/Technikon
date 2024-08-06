@@ -6,6 +6,7 @@ import java.util.Optional;
 public interface RepairRepositoryInterface<T, K, D> {
 
     List<T> findByOwnerId(K ownerId);
+    Optional<T> findById(K repairId);
 
     List<T> findByDate(D date);
 
