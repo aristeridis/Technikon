@@ -15,9 +15,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-
 public class Owner {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long OwnerId;

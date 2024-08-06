@@ -36,7 +36,7 @@ public class Property {
     @OneToMany(mappedBy = "property")
     private List<Repair> repairList;
 
-    public Property(int propertyId, String address, int yearOfConstruction, PropertyType propertyType, Owner owner) {
+    public Property(long propertyId, String address, int yearOfConstruction, PropertyType propertyType, Owner owner) {
         this.propertyId = propertyId;
         this.address = address;
         this.yearOfConstruction = yearOfConstruction;
