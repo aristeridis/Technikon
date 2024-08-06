@@ -3,9 +3,6 @@ package gr.ed.technikon.utility;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 
 public class JPAUtil {
 
@@ -14,7 +11,7 @@ public class JPAUtil {
 
     public static EntityManagerFactory getEntityManagerFactory() {
         if (factory == null) {
-           
+
             factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         }
         return factory;

@@ -4,7 +4,6 @@ import gr.ed.technikon.Repositories.OwnerRepository;
 import gr.ed.technikon.Repositories.OwnerRepositoryInterface;
 import gr.ed.technikon.Repositories.PropertyRepository;
 import gr.ed.technikon.Repositories.PropertyRepositoryInterface;
-import gr.ed.technikon.Repositories.RepairInterface;
 import gr.ed.technikon.Repositories.RepairRepository;
 import gr.ed.technikon.enums.PropertyType;
 import gr.ed.technikon.enums.RepairStatus;
@@ -21,21 +20,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import gr.ed.technikon.Repositories.RepairRepositoryInterface;
+
+@Slf4j
 
 public class IOService implements IOServiceInterface {
 
     private final OwnerRepositoryInterface ownerRepository;
     private final PropertyRepositoryInterface propertyRepository;
-    private final RepairInterface repairRepository;
-    private final Logger logger;
+    private final RepairRepositoryInterface repairRepository;
 
-    public IOService(OwnerRepositoryInterface ownerRepository, PropertyRepositoryInterface propertyRepository, RepairInterface repairRepository) {
+
+    public IOService(OwnerRepositoryInterface ownerRepository, PropertyRepositoryInterface propertyRepository, RepairRepositoryInterface repairRepository) {
         this.ownerRepository = ownerRepository;
         this.propertyRepository = propertyRepository;
         this.repairRepository = repairRepository;
-        this.logger = LoggerFactory.getLogger(IOService.class);
     }
 
     // Saving Owners to CSV
@@ -56,7 +56,7 @@ public class IOService implements IOServiceInterface {
                         + owner.getEmail());
             }
         } catch (FileNotFoundException e) {
-            logger.error("Error writing owners to CSV", e);
+            log.error("Error writing owners to CSV", e);
         }
     }
 
@@ -75,7 +75,7 @@ public class IOService implements IOServiceInterface {
                         + property.getPropertyType());
             }
         } catch (FileNotFoundException e) {
-            logger.error("Error writing properties to CSV", e);
+            log.error("Error writing properties to CSV", e);
         }
     }
 
@@ -91,7 +91,6 @@ public class IOService implements IOServiceInterface {
                 pw.println(repair.getRepairId() + ","
                         + repair.getProperty().getPropertyId() + ","
                         + repair.getShortDescription() + ","
-                        + repair.getOwner().getOwnerId() + ","
                         + repair.getDateOfSubmission() + ","
                         + repair.getDescriptionOfWork() + ","
                         + repair.getProposedDateOfStart() + ","
@@ -104,7 +103,7 @@ public class IOService implements IOServiceInterface {
                         + repair.getRepairStatus());
             }
         } catch (FileNotFoundException e) {
-            logger.error("Error writing repairs to CSV", e);
+            log.error("Error writing repairs to CSV", e);
         }
     }
 
@@ -131,7 +130,7 @@ public class IOService implements IOServiceInterface {
                 rowsRead++;
             }
         } catch (FileNotFoundException e) {
-            logger.error("Error reading owners from CSV", e);
+            log.error("Error reading owners from CSV", e);
         }
         return rowsRead;
     }
@@ -156,7 +155,7 @@ public class IOService implements IOServiceInterface {
                 rowsRead++;
             }
         } catch (FileNotFoundException e) {
-            logger.error("Error reading properties from CSV", e);
+            log.error("Error reading properties from CSV", e);
         }
         return rowsRead;
     }

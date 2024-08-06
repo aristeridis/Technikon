@@ -89,4 +89,27 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         return Owner.class.getName();
     }
 
+    @Override
+    public Optional<Owner> update(Owner owner) {
+        try {
+            entityManager.getTransaction().begin();
+            Owner o = entityManager.find(Owner.class, owner.getOwnerId());
+            if (o != null) {
+                o.setAddress(owner.getAddress());
+                o.setEmail(owner.getEmail());
+                o.setPassword(owner.getPassword());
+
+                entityManager.merge(o);
+                entityManager.getTransaction().commit();
+                return Optional.of(o);
+            } else {
+                log.debug("Owner with ID: " + owner.getOwnerId() + " was not found and cannot be updated.");
+            }
+        } catch (Exception e) {
+            log.debug("Could not update Owner", e);
+            entityManager.getTransaction().rollback();
+        }
+        return Optional.empty();
+    }
+
 }
