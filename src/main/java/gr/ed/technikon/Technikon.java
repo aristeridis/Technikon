@@ -1,16 +1,21 @@
 package gr.ed.technikon;
 
+import gr.ed.technikon.utility.JPAUtil;
+import gr.ed.technikon.utility.UseCases;
+import jakarta.persistence.EntityManager;
+
 public class Technikon {
 
     public static void main(String[] args) {
+        
+        EntityManager m = JPAUtil.getEntityManager();
         System.out.println("Welcome to Technikon");
         System.out.println("1. Admin");
         System.out.println("2. Owner");
         System.out.println("3. Exit");
-        System.out.println("NIKOS KOUKOS");
-        System.out.println(" Poly megalh Vlakeia to git");
-        
-    /*   Admin menu
+        UseCases.dataPopulation();
+
+        /*   Admin menu
         1. Owner Management
            1. Display All Owners
            2. Create Owner
@@ -61,7 +66,6 @@ public class Technikon {
         4. Reports // to idio kai edw
 
         oti allo prokuspei to prosthetoume  
-        */
-    
+         */
     }
 }
