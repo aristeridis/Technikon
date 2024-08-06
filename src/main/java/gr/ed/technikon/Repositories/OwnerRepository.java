@@ -18,14 +18,18 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
     }
 
     @Override
-    public Optional<Owner> findByVatNumber(Long VatNumber) {
+    public Optional<Owner> findByVatNumber(Long vatNumber) {
         try {
             entityManager.getTransaction().begin();
-            Owner owner = entityManager.find(getEntityClass(), VatNumber);
+            TypedQuery<Owner> query = entityManager.createQuery(
+                "SELECT o FROM Owner o WHERE o.VatNumber = :vatNumber AND o.deleted = false", Owner.class);
+            query.setParameter("vatNumber", vatNumber);
+            Owner owner = query.getSingleResult();
             entityManager.getTransaction().commit();
             return Optional.of(owner);
         } catch (Exception e) {
-            log.debug("Could not find an Owner with this VAT ");
+            log.debug("Could not find an Owner with this VAT number", e);
+            entityManager.getTransaction().rollback();
         }
         return Optional.empty();
     }
@@ -34,11 +38,15 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
     public Optional<Owner> findByEmail(String email) {
         try {
             entityManager.getTransaction().begin();
-            Owner owner = entityManager.find(getEntityClass(), email);
+            TypedQuery<Owner> query = entityManager.createQuery(
+                "SELECT o FROM Owner o WHERE o.Email = :email AND o.deleted = false", Owner.class);
+            query.setParameter("email", email);
+            Owner owner = query.getSingleResult();
             entityManager.getTransaction().commit();
             return Optional.of(owner);
         } catch (Exception e) {
-            log.debug("Could not find Owner with this email");
+            log.debug("Could not find Owner with this email", e);
+            entityManager.getTransaction().rollback();
         }
         return Optional.empty();
     }
@@ -74,20 +82,39 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         return false;
     }
 
-    @Override
-    public List<Owner> findAll() {
-        TypedQuery<Owner> query
-                = entityManager.createQuery("from " + getEntityClassName(), getEntityClass());
+   @Override
+        public List<Owner> findAll() {
+        TypedQuery<Owner> query = entityManager.createQuery(
+        "SELECT o FROM Owner o WHERE o.deletedOwner = false", Owner.class);                     
         return query.getResultList();
-    }
+}
 
     private Class<Owner> getEntityClass() {
         return Owner.class;
     }
 
-    private String getEntityClassName() {
-        return Owner.class.getName();
+//    private String getEntityClassName() {
+//        return Owner.class.getName();
+//    }
+    
+    @Override
+    public boolean safeDeleteById(Long ownerId) {
+    Owner persistentInstance = entityManager.find(getEntityClass(), ownerId);
+    if (persistentInstance != null) {
+        try {
+            entityManager.getTransaction().begin();
+            persistentInstance.setDeletedOwner(true);
+            entityManager.merge(persistentInstance); 
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            log.debug("Could not safely delete Owner", e);
+            entityManager.getTransaction().rollback();
+            return false;
+        }
     }
+    return false;
+}
 
     @Override
     public Optional<Owner> update(Owner owner) {

@@ -36,6 +36,9 @@ public class Property {
     @OneToMany(mappedBy = "property")
     private List<Repair> repairList;
 
+    @Column(name = "is_deleted")
+    private boolean deletedProperty;
+
     public Property(int E9, String address, int yearOfConstruction, PropertyType propertyType, Owner owner) {
         this.E9 = E9;
         this.address = address;

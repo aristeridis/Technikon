@@ -57,4 +57,6 @@ public class Repair {
     @ManyToOne
     private Property property;
 
+    private boolean deletedRepair;
+
 }
