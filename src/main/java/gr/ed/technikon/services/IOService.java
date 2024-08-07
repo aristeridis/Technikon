@@ -117,7 +117,6 @@ public class IOService implements IOServiceInterface {
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
                 Owner owner = new Owner();
-                owner.setOwnerId(Long.parseLong(data[0].trim()));
                 owner.setUsername(data[1].trim());
                 owner.setPassword(data[2].trim());
                 owner.setVatNumber(Long.parseLong(data[3].trim()));
@@ -145,7 +144,6 @@ public class IOService implements IOServiceInterface {
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
                 Property property = new Property();
-                property.setPropertyId(Integer.parseInt(data[1].trim()));
                 property.setAddress(data[2].trim());
                 property.setYearOfConstruction(Integer.parseInt(data[3].trim()));
                 Optional<Owner> owner = ownerRepository.findByVatNumber(Long.valueOf(data[4].trim()));
