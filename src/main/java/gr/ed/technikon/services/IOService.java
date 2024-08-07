@@ -109,14 +109,13 @@ public class IOService implements IOServiceInterface {
     public int readOwnersCsv(String filename) {
         int rowsRead = 0;
         try (Scanner scanner = new Scanner(new File(filename))) {
-            scanner.nextLine(); // Skip header
+            scanner.nextLine(); 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
-                if (data.length < 9) continue; // Skip malformed lines
+//                if (data.length < 9) continue; 
 
                 Owner owner = new Owner();
-                owner.setOwnerId(parseLong(data[0]));
                 owner.setUsername(data[1].trim());
                 owner.setPassword(data[2].trim());
                 owner.setVatNumber(parseLong(data[3]));
@@ -138,14 +137,14 @@ public class IOService implements IOServiceInterface {
     public int readPropertiesCsv(String filename) {
         int rowsRead = 0;
         try (Scanner scanner = new Scanner(new File(filename))) {
-            scanner.nextLine(); // Skip header
+            scanner.nextLine(); 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
-                if (data.length < 5) continue; // Skip malformed lines
+                //if (data.length < 5) continue; 
 
                 Property property = new Property();
-                property.setPropertyId(parseLong(data[0]));
+//                property.setPropertyId(parseLong(data[0]));
                 property.setAddress(data[1].trim());
                 property.setYearOfConstruction(parseInt(data[2]));
 
@@ -175,7 +174,7 @@ public class IOService implements IOServiceInterface {
                 if (data.length < 14) continue; // Skip malformed lines
 
                 Repair repair = new Repair();
-                repair.setRepairId(parseLong(data[0]));
+//                repair.setRepairId(parseLong(data[0]));
 
                 Optional<Property> property = propertyRepository.findById(parseLong(data[1]));
                 property.ifPresent(repair::setProperty);
@@ -223,7 +222,7 @@ public class IOService implements IOServiceInterface {
             return Integer.parseInt(value.trim());
         } catch (NumberFormatException e) {
             log.warn("Invalid number format for value '{}'", value);
-            return -1; // Default or error value
+            return -1; 
         }
     }
 

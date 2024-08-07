@@ -18,6 +18,18 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
     public RepairRepository() {
         entityManager = JPAUtil.getEntityManager();
     }
+    
+      @Override
+  public Optional<Repair> findById(Long repairId) {
+        try {
+            Repair repair = entityManager.find(Repair.class, repairId);
+            return Optional.ofNullable(repair);
+        } catch (Exception e) {
+            log.debug("Could not find Property with ID: " + repairId);
+            entityManager.getTransaction().rollback();
+        }
+        return Optional.empty();
+    }
 
     @Override
     public List<Repair> findByOwnerId(Long ownerId) {

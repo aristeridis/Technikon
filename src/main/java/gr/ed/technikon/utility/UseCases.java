@@ -12,6 +12,10 @@ import gr.ed.technikon.services.OwnerService;
 import gr.ed.technikon.services.OwnerServiceInterface;
 import static java.io.File.separator;
 import gr.ed.technikon.Repositories.RepairRepositoryInterface;
+import gr.ed.technikon.models.Property;
+import gr.ed.technikon.models.Repair;
+import gr.ed.technikon.services.AdminService;
+import gr.ed.technikon.services.AdminServiceInterface;
 
 public class UseCases {
 
@@ -21,7 +25,7 @@ public class UseCases {
 
     private static final IOServiceInterface ioService = new IOService(ownerRepo, propertyRepo, repairRepo);
     private static final OwnerServiceInterface ownerService = new OwnerService(propertyRepo);
-    //private static final AdministratorService adminService = new AdministratorServiceImpl(repairRepo);
+    private static final AdminServiceInterface adminService = new AdminService();
 
     private static Owner owner;
 
@@ -30,11 +34,21 @@ public class UseCases {
 
         System.out.println();
         System.out.println("|-------------------Read Data from csv files-------------------|");
-        ioService.readOwnersCsv("data" + separator + "owners.csv");
+        ioService.readOwnersCsv("data" + separator + "owner.csv");
         ioService.readPropertiesCsv("data" + separator + "property.csv");
-//        ioService.readRepairFromCsv("data" + separator + "repair.csv");
+        ioService.readRepairsFromCsv("data" + separator + "repair.csv");
 
         System.out.println();
         System.out.println("|-------------------Reading Completing-------------------|");
     }
+
+//    public static void saveChanges() {
+//        System.out.println();
+//        System.out.println("|-------------------Save Data from csv files-------------------|");
+//
+//        ioService.saveOwnersToCsv("data" + separator + "owners.csv");
+//        ioService.savePropertiesToCsv("data" + separator + "properties.csv");
+//        ioService.saveRepairsToCsv("data" + separator + "repairs.csv");
+//    }
+
 }
