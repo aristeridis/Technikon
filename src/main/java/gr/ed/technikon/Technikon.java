@@ -1,5 +1,6 @@
 package gr.ed.technikon;
 
+import gr.ed.technikon.services.AdminService;
 import gr.ed.technikon.utility.JPAUtil;
 import gr.ed.technikon.utility.UseCases;
 import jakarta.persistence.EntityManager;
@@ -18,6 +19,9 @@ public class Technikon {
         UseCases.ownerWithTwoProperties();
         UseCases.repairsForPropertiesOwner(9L);
         UseCases.selectPropertiesFromOwnerById(3);
+        UseCases.ownerAcceptanceOfRepairs(true, 3);
+        UseCases.adminGetsPendingRepairs();
+        UseCases.getProposedCost();
 
         /*   Admin menu
         1. Owner Management

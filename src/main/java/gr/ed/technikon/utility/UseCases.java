@@ -19,6 +19,7 @@ import gr.ed.technikon.models.Property;
 import gr.ed.technikon.models.Repair;
 import gr.ed.technikon.services.AdminService;
 import gr.ed.technikon.services.AdminServiceInterface;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class UseCases {
     private static final OwnerRepositoryInterface ownerRepo = new OwnerRepository();
     private static final PropertyRepositoryInterface propertyRepo = new PropertyRepository();
     private static final RepairRepositoryInterface repairRepo = new RepairRepository();
-    
 
     private static final IOServiceInterface ioService = new IOService(ownerRepo, propertyRepo, repairRepo);
     private static final OwnerServiceInterface ownerService = new OwnerService(propertyRepo);
@@ -91,42 +91,79 @@ public class UseCases {
 
     }
 
-
-      public static void repairsForPropertiesOwner(long propertyId) throws ParseException {
+    public static Repair repairsForPropertiesOwner(long propertyId) throws ParseException {
         System.out.println("|-------------------4.3-------------------|");
-        Optional <Property> propertyOwner = propertyRepo.findById(propertyId);
+        Optional<Property> propertyOwner = propertyRepo.findById(propertyId);
         property = propertyOwner.get();
         repair = new Repair();
         repair.setDateOfSubmission(DATE_FORMAT.parse("19-09-2024"));
-        repair.setDeletedRepair(false);
+//        repair.setDeletedRepair(false);
         repair.setDescriptionOfWork("Painting of the living room walls in shades of grey.");
         repair.setShortDescription("Wall Painting");
         repair.setRepairType(RepairType.PAINTING);
         repair.setRepairStatus(RepairStatus.PENDING);
         repair.setProperty(property);
-        
-        
+
         repairRepo.save(repair);
-      }
-      
-      public static void selectPropertiesFromOwnerById(long ownerId){
-          Optional <Owner> ownerProperty = ownerRepo.findByOwnerId(ownerId);
-//          owner = ownerProperty.get();
-          OwnerService ownerService = new OwnerService(propertyRepo);
-          for(Property property : ownerService.getPropertiesByOwnerId(ownerId)){             
-              System.out.println("The property ID for this unique ownerID is/are: " + property.getPropertyId());
-          }
-          
-          
-          
+        return repair;
     }
-      
-      
-      private Date parseDate(String dateStr) throws ParseException {
+
+    public static void selectPropertiesFromOwnerById(long ownerId) {
+        Optional<Owner> ownerProperty = ownerRepo.findByOwnerId(ownerId);
+//          owner = ownerProperty.get();
+        OwnerService ownerService = new OwnerService(propertyRepo);
+        for (Property property : ownerService.getPropertiesByOwnerId(ownerId)) {
+            System.out.println("The property ID for this unique ownerID is/are: " + property.getPropertyId());
+        }
+
+    }
+//      Den apothikeuetai sth vash
+
+    public static boolean ownerAcceptanceOfRepairs(Boolean b, long propertyId) throws ParseException {
+        System.out.println("|-------------------4.4-------------------|");
+        OwnerService ownerService = new OwnerService(propertyRepo);
+        Repair repair = repairsForPropertiesOwner(propertyId);
+        repairRepo.save(repair);
+        return ownerService.acceptance(repair);
+
+    }
+
+    public static void adminGetsPendingRepairs() {
+        AdminService adminService = new AdminService();
+        for (Repair rs : adminService.getPendingRepairs()) {
+            System.out.println("Pending Repairs" + rs.toString());
+        }
+    }
+    public static void getProposedCost(){
+             AdminService adminService = new AdminService();
+             for (BigDecimal bd : adminService.getProposedCost()){
+                 System.out.println("Proposed Cost: " +bd);
+             }
+                
+             
+         }  
+
+//    public static void getProposedStartEndDates() {
+//        AdminService adminService = new AdminService();
+//        for (Repair rs : adminService.proposedStartEndDates(proposedDateOfStart, proposedDateOfEnd)) {
+//            System.out.println("Pending Repairs" + rs.toString());
+//        }
+           
+           
+
+//    public static void adminGetsPendingRepairs() {
+//        AdminService adminService = new AdminService();
+//        for (Repair rs : adminService.getPendingRepairs()) {
+//            System.out.println("Pending Repairs" + rs.toString());
+//        }
+//    }
+
+    private Date parseDate(String dateStr) throws ParseException {
         Date date = DATE_FORMAT.parse(dateStr);
         return date;
     }
-      private long parseLong(String value) {
+
+    private long parseLong(String value) {
         try {
             return Long.parseLong(value.trim());
         } catch (NumberFormatException e) {
@@ -138,7 +175,7 @@ public class UseCases {
         try {
             return Integer.parseInt(value.trim());
         } catch (NumberFormatException e) {
-            
+
             return -1;
         }
     }

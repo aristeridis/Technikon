@@ -29,6 +29,22 @@ public class AdminService implements AdminServiceInterface {
         rp.setProposedCost(proposedCost);
 
     }
+    
+    public List<BigDecimal> getProposedCost() {
+        Repair rp = new Repair();
+        RepairRepository getRepairs = new RepairRepository();
+        List<Repair> allRepairs = getRepairs.findAll();
+        BigDecimal BDCost;
+        List<BigDecimal> Costs = new ArrayList();
+        for(Repair repair : allRepairs){
+            BDCost = rp.getProposedCost();
+               Costs.add(BDCost);
+               
+        }
+        return Costs;
+        
+    }
+    
 
     @Override
     public List<Optional> proposedStartEndDates(Date proposedDateOfStart, Date proposedDateOfEnd) {
