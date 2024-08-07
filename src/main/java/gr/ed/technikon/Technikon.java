@@ -16,15 +16,15 @@ public class Technikon {
         System.out.println("2. Owner");
         System.out.println("3. Exit");
         UseCases.dataPopulation();
-//        UseCases.ownerWithTwoProperties();
-//        UseCases.repairsForPropertiesOwner(9L);
-//        UseCases.selectPropertiesFromOwnerById(3);
-//        UseCases.ownerAcceptanceOfRepairs(true, 3);
-//        UseCases.adminGetsPendingRepairs();
-//        UseCases.getProposedCost();
-//        UseCases.adminchecksTheDates();
-        UseCases.adminGetAllStartAndEndDates();
-        UseCases.adminGetAllPendingRepairsWithProposedCostAndDates();
+        UseCases.ownerWithTwoProperties();
+        UseCases.repairsForPropertiesOwner(9L);
+        UseCases.selectPropertiesFromOwnerById(3);
+        UseCases.ownerAcceptanceOfRepairs(true, 3);
+        UseCases.adminGetsPendingRepairs();
+        UseCases.getProposedCost();
+        UseCases.adminchecksTheDates();
+        UseCases.adminGetsAllStartAndEndDates();
+        UseCases.adminGetsAllPendingRepairsWithProposedCostAndDates();
 
         /*   Admin menu
         1. Owner Management

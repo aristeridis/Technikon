@@ -156,7 +156,7 @@ public class UseCases {
         }
     }
 
-    public static void adminGetAllStartAndEndDates() {
+    public static void adminGetsAllStartAndEndDates() {
         System.out.println("|-------------------The Start and End Dates for all Repairs-------------------|");
         AdminService adminService = new AdminService();
         List<Repair> allRepairs = adminService.getAllRepairs();
@@ -175,7 +175,7 @@ public class UseCases {
         }
     }
 
-    public static void adminGetAllPendingRepairsWithProposedCostAndDates() throws ParseException {
+    public static void adminGetsAllPendingRepairsWithProposedCostAndDates() throws ParseException {
          System.out.println("|-------------------The Cost, Start and End Dates for Pending Repairs-------------------|");
 
         List<Repair> pendingRepairs = adminService.getPendingRepairs();
