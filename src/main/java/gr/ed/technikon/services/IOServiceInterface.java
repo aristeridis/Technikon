@@ -13,7 +13,7 @@ public interface IOServiceInterface {
     int readOwnersCsv(String filename);
 
     int readPropertiesCsv(String filename);
-//
-//    int readRepairsFromCsv(String filename);
+
+    int readRepairsFromCsv(String filename);
 
 }

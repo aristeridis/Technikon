@@ -26,33 +26,36 @@ public class Repair {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long repairId;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private RepairType repairType;
 
+    @Column(nullable = true)
     private String shortDescription;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date dateOfSubmission;
-
+    
+    @Column(nullable = true)
     private String descriptionOfWork;
-
-    @Column(nullable = false)
+    
+    @Column(nullable = true)
     private Date proposedDateOfStart;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date proposedDateOfEnd;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private BigDecimal proposedCost;
 
+    @Column(nullable = true)
     private boolean acceptance;
-
+    @Column(nullable = true)
     private RepairStatus repairStatus;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date dateOfStart;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date dateOfEnd;
 
     @ManyToOne

@@ -30,6 +30,5 @@ public class OwnerService implements OwnerServiceInterface {
     public List<Property> getPropertiesByOwnerId(Long ownerId) {
         return propertyRepository.findByOwnerId(ownerId);
     }
-
 }
-
+     

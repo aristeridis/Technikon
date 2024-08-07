@@ -35,7 +35,7 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
     public List<Repair> findByOwnerId(Long ownerId) {
         try {
             entityManager.getTransaction().begin();
-            TypedQuery<Repair> query = entityManager.createQuery("SELECT repair FROM Repair repair WHERE repair.owner.id = :ownerId", Repair.class);
+            TypedQuery<Repair> query = entityManager.createQuery("SELECT repair FROM Repair repair WHERE p.owner.OwnerId = :ownerId", Repair.class);
             query.setParameter("ownerId", ownerId);
             List<Repair> repairs = query.getResultList();
             entityManager.getTransaction().commit();

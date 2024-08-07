@@ -29,7 +29,7 @@ public class IOService implements IOServiceInterface {
     private final PropertyRepositoryInterface<Property, Long> propertyRepository;
     private final RepairRepositoryInterface<Repair, Long, Date> repairRepository;
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     public IOService(OwnerRepositoryInterface<Owner, Long, String> ownerRepository,
             PropertyRepositoryInterface<Property, Long> propertyRepository,
@@ -165,49 +165,50 @@ public class IOService implements IOServiceInterface {
         return rowsRead;
     }
 
-//    @Override
-//    public int readRepairsFromCsv(String filename) {
-//        int rowsRead = 0;
-//        try (Scanner scanner = new Scanner(new File(filename))) {
-//            scanner.nextLine(); 
-//            while (scanner.hasNextLine()) {
-//                String line = scanner.nextLine();
-//                String[] data = line.split(",");
-////                if (data.length < 14) {
-////                    continue; 
-////                }
-//                Repair repair = new Repair();
-//                Optional<Property> property = propertyRepository.findById(parseLong(data[1]));
-//                property.ifPresent(repair::setProperty);
-//                repair.setShortDescription(data[2].trim());
-//                repair.setDateOfSubmission(Date(data[3]));
-//                repair.setDescriptionOfWork(data[4].trim());
-//                repair.setProposedDateOfStart(parseDate(data[5]));
-//                repair.setProposedDateOfEnd(parseDate(data[6]));
-//                repair.setProposedCost(new BigDecimal(data[7].trim()));
-//                repair.setAcceptance(Boolean.parseBoolean(data[8]));
-//                repair.setDateOfStart(parseDate(data[9]));
-//                repair.setDateOfEnd(parseDate(data[10]));
-//                repair.setRepairType(RepairType.valueOf(data[11].trim()));
-//                repair.setRepairStatus(RepairStatus.valueOf(data[12].trim()));
-//
-//                repairRepository.save(repair);
-//                rowsRead++;
-//            }
-//        } catch (FileNotFoundException e) {
-//            log.error("Error reading repairs from CSV file '{}'", filename, e);
-//        } catch (ParseException e) {
-//            log.error("Error parsing date in repairs CSV file '{}'", filename, e);
-//        } catch (IllegalArgumentException e) {
-//            log.error("Invalid repair type or status in file '{}'", filename, e);
-//        }
-//        return rowsRead;
-//    }
-//
-//    private Date parseDate(String dateStr) throws ParseException {
-//        return dateStr.isEmpty() ? null : DATE_FORMAT.parse(dateStr);
-//    }
-//
+    @Override
+    public int readRepairsFromCsv(String filename) {
+        int rowsRead = 0;
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            scanner.nextLine(); 
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] data = line.split(",");
+//                if (data.length < 14) {
+//                    continue; 
+//                }
+                Repair repair = new Repair();
+                Optional<Property> property = propertyRepository.findById(Long.parseLong(data[1]));
+                property.ifPresent(repair::setProperty);
+                repair.setShortDescription(data[2].trim());
+                repair.setDateOfSubmission(parseDate(data[3]));
+                repair.setDescriptionOfWork(data[4].trim());
+                repair.setProposedDateOfStart(parseDate(data[5]));
+                repair.setProposedDateOfEnd(parseDate(data[6]));
+                repair.setProposedCost(new BigDecimal(data[7].trim()));
+                repair.setAcceptance(Boolean.parseBoolean(data[8]));
+                repair.setDateOfStart(parseDate(data[9].trim()));
+                repair.setDateOfEnd(parseDate(data[10].trim()));
+                repair.setRepairType(RepairType.valueOf(data[11].trim()));
+                repair.setRepairStatus(RepairStatus.valueOf(data[12].trim()));
+
+                repairRepository.save(repair);
+                rowsRead++;
+            }
+        } catch (FileNotFoundException e) {
+            log.error("Error reading repairs from CSV file '{}'", filename, e);
+        } catch (ParseException e) {
+            log.error("Error parsing date in repairs CSV file '{}'", filename, e);
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid repair type or status in file '{}'", filename, e);
+        }
+        return rowsRead;
+    }
+
+    private Date parseDate(String dateStr) throws ParseException {
+        Date date = DATE_FORMAT.parse(dateStr);
+        return date;
+    }
+
     private long parseLong(String value) {
         try {
             return Long.parseLong(value.trim());

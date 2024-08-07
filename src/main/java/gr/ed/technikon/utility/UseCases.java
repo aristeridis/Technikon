@@ -12,10 +12,12 @@ import gr.ed.technikon.services.OwnerService;
 import gr.ed.technikon.services.OwnerServiceInterface;
 import static java.io.File.separator;
 import gr.ed.technikon.Repositories.RepairRepositoryInterface;
+import gr.ed.technikon.enums.PropertyType;
 import gr.ed.technikon.models.Property;
 import gr.ed.technikon.models.Repair;
 import gr.ed.technikon.services.AdminService;
 import gr.ed.technikon.services.AdminServiceInterface;
+import java.util.List;
 
 public class UseCases {
 
@@ -36,19 +38,10 @@ public class UseCases {
         System.out.println("|-------------------Read Data from csv files-------------------|");
         ioService.readOwnersCsv("data" + separator + "owner.csv");
         ioService.readPropertiesCsv("data" + separator + "property.csv");
-//        ioService.readRepairsFromCsv("data" + separator + "repair.csv");
+        ioService.readRepairsFromCsv("data" + separator + "repair.csv");
 
         System.out.println();
         System.out.println("|-------------------Reading Completing-------------------|");
     }
-
-//    public static void saveChanges() {
-//        System.out.println();
-//        System.out.println("|-------------------Save Data from csv files-------------------|");
-//
-//        ioService.saveOwnersToCsv("data" + separator + "owners.csv");
-//        ioService.savePropertiesToCsv("data" + separator + "properties.csv");
-//        ioService.saveRepairsToCsv("data" + separator + "repairs.csv");
-//    }
-
+    
 }

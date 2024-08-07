@@ -1,21 +1,7 @@
-id,propertyId,shortDescription,ownerId,dateOfSubmission,descriptionOfWork,proposedDateOfStart,proposedDateOfEnd,proposedCost,acceptance,dateOfStart,dateOfEnd,repairType,statusType
-1,21,Roof repair and replacement,5,10/1/2022,Repair and replace damaged roof tiles.,10/15/2022,11/15/2022,6200,TRUE,10/16/2022,11/14/2022,ROOFING,COMPLETE
-2,22,Window replacement,12,9/20/2022,Replace all windows with energy-efficient ones.,11/1/2022,11/30/2022,8900,FALSE,,,FRAMES,DECLINED
-3,23,Kitchen renovation,8,10/7/2022,Full renovation of the kitchen area.,11/14/2022,12/20/2022,15000,TRUE,11/15/2022,12/19/2022,RENOVATION,IN_PROGRESS
-4,24,Repair/replace of the heating system,7,9/29/2022,Replace the old heating system with a new one.,10/20/2022,11/5/2022,10500,TRUE,10/22/2022,11/4/2022,HEATING,COMPLETE
-5,25,Bathroom renovation,16,10/15/2022,Complete overhaul of the main bathroom.,11/10/2022,12/30/2022,13000,FALSE,,,RENOVATION,DECLINED
-6,26,Exterior painting,4,10/5/2022,Paint the exterior walls and fences.,10/22/2022,11/6/2022,5400,TRUE,10/23/2022,11/5/2022,PAINTING,COMPLETE
-7,27,Repair/replace of the plumbing system,10,9/18/2022,Fix leaks and replace pipes in the kitchen and bathroom.,10/3/2022,10/17/2022,4200,TRUE,10/4/2022,10/16/2022,PLUMBING,COMPLETE
-8,28,Installation of solar panels,2,9/22/2022,Install solar panels on the roof.,11/1/2022,11/30/2022,18000,FALSE,,,ENERGY,DECLINED
-9,29,Landscaping and gardening,9,10/10/2022,Renovate the garden and add new plants.,10/25/2022,11/10/2022,4500,TRUE,10/26/2022,11/9/2022,LANDSCAPING,COMPLETE
-10,30,Interior redesign and decoration,3,9/25/2022,Redesign the interior with new furniture and decor.,11/5/2022,12/10/2022,9500,TRUE,11/6/2022,12/9/2022,DECORATION,IN_PROGRESS
-11,31,Electricity meter installation,11,9/12/2022,Install a new electricity meter for accurate billing.,10/10/2022,10/15/2022,3200,TRUE,10/11/2022,10/14/2022,ELECTRICAL_WORK,COMPLETE
-12,32,Window frame repairs,15,9/27/2022,Repair and repaint window frames.,10/15/2022,11/1/2022,3800,TRUE,10/16/2022,10/31/2022,FRAMES,COMPLETE
-13,33,Garage door installation,13,9/30/2022,Install a new automated garage door.,11/8/2022,11/18/2022,6500,TRUE,11/9/2022,11/17/2022,DOOR,COMPLETE
-14,34,Attic insulation,6,10/11/2022,Install insulation in the attic for better energy efficiency.,10/25/2022,11/5/2022,7400,FALSE,,,INSULATION,DECLINED
-15,35,Driveway paving,19,10/18/2022,Repave the driveway with new materials.,11/12/2022,11/30/2022,8200,TRUE,11/13/2022,11/29/2022,PAVING,COMPLETE
-16,36,Floor replacement,18,9/21/2022,Replace the old wooden floors with new tiles.,10/10/2022,10/25/2022,9800,TRUE,10/11/2022,10/24/2022,FLOORING,COMPLETE
-17,37,Chimney repair and cleaning,17,10/14/2022,Repair and clean the chimney for safe use.,11/1/2022,11/10/2022,3600,TRUE,11/2/2022,11/9/2022,CHIMNEY,COMPLETE
-18,38,Pool maintenance,14,9/19/2022,Clean and repair the swimming pool.,10/1/2022,10/7/2022,5200,TRUE,10/2/2022,10/6/2022,MAINTENANCE,COMPLETE
-19,39,Fence installation,20,10/12/2022,Install a new fence around the property.,10/28/2022,11/7/2022,7800,TRUE,10/29/2022,11/6/2022,FENCING,COMPLETE
-20,40,Installation of security system,1,10/8/2022,Install a new security system including cameras and alarms.,11/2/2022,11/15/2022,12000,TRUE,11/3/2022,11/14/2022,SECURITY,COMPLETE
+id,propertyId,shortDescription,dateOfSubmission,descriptionOfWork,proposedDateOfStart,proposedDateOfEnd,proposedCost,acceptance,dateOfStart,dateOfEnd,repairType,statusType
+1,101,Painting the living room,10-01-2024,Repaint all walls in the living room,01-02-2024,10-02-2024,1500.00,true,02-02-2024,09-02-2024,PAINTING,COMPLETE
+2,102,Fixing insulation,05-03-2024,Insulate the attic,01-04-2024,05-04-2024,2000.00,false,02-03-2024,09-05-2024,INSULATION,PENDING
+3,103,Replace window frames,20-01-2024,Replace all window frames on the first floor,15-02-2024,20-02-2024,1800.00,true,16-02-2024,18-02-2024,FRAMES,IN_PROGRESS
+4,104,Fix plumbing issue,25-01-2024,Fix leak in the kitchen plumbing,10-02-2024,12-02-2024,500.00,false,16-04-2024,18-05-2024,PLUMBING,COMPLETE
+5,105,Electrical rewiring,01-02-2024,Rewire the basement,01-03-2024,05-03-2024,3000.00,true,02-03-2024,04-03-2024,ELECTRICAL_WORK,COMPLETE
+6,106,Paint exterior walls,15-01-2024,Repaint all exterior walls,20-02-2024,25-02-2024,2500.00,true,21-02-2024,24-02-2024,PAINTING,COMPLETE
