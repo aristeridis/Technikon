@@ -22,6 +22,7 @@ public class Technikon {
         UseCases.ownerAcceptanceOfRepairs(true, 3);
         UseCases.adminGetsPendingRepairs();
         UseCases.getProposedCost();
+        UseCases.adminchecksTheDates();
 
         /*   Admin menu
         1. Owner Management

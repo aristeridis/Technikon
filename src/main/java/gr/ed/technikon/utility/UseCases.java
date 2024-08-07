@@ -142,6 +142,20 @@ public class UseCases {
                 
              
          }  
+    
+   public static void adminchecksTheDates() {
+        System.out.print("Enter the Repair ID to check dates: ");
+        Long repairId = scanner.nextLong();
+
+        List<Date> repairDates = adminService.checkActuallDate(repairId);
+
+        if (repairDates.isEmpty()) {
+            System.out.println("No dates found for the given repair ID.");
+        } else {
+            System.out.println("Start Date: " + repairDates.get(0));
+            System.out.println("End Date: " + repairDates.get(1));
+        }
+    }
 
 //    public static void getProposedStartEndDates() {
 //        AdminService adminService = new AdminService();
