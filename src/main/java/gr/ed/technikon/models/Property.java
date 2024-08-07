@@ -42,24 +42,15 @@ public class Property {
     @Column(name = "is_deleted")
     private boolean deletedProperty;
 
-    public Property(long propertyId, long propertyCode, long E9, String address, int yearOfConstruction, PropertyType propertyType, Owner owner) {
+    public Property(long propertyCode, String address, int yearOfConstruction, PropertyType propertyType, Owner owner) {
 //        this.E9 = E9;
         this.address = address;
         this.yearOfConstruction = yearOfConstruction;
         this.propertyType = propertyType;
         this.owner = owner;
 //        this.propertyId = E9;
-        this.propertyId = propertyId;
         this.propertyCode = propertyCode;
         this.E9 = this.propertyCode;
 
-    }
-
-//    public long getOwnerId(){
-//        return owner.getOwnerId();
-//        
-//    }
-//    public void setOwnerId(long OwnerId){
-//        OwnerId = getOwnerId();
-//    }
+    }    
 }

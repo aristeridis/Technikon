@@ -41,4 +41,11 @@ public class Owner {
     private List<Property> propertyList;
     @Column(nullable = false)
     private boolean deletedOwner = false;
+
+    @Override
+    public String toString() {
+        return "Owner{" + "OwnerId=" + OwnerId + ", VatNumber=" + VatNumber + ", Name=" + Name + ", SurName=" + SurName + ", Address=" + Address + ", PhoneNumber=" + PhoneNumber + ", Email=" + Email + ", Username=" + Username + ", password=" + password + ", propertyList=" + propertyList + ", deletedOwner=" + deletedOwner + '}';
+    }
+    
+    
 }

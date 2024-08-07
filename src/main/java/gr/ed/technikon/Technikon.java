@@ -14,6 +14,7 @@ public class Technikon {
         System.out.println("2. Owner");
         System.out.println("3. Exit");
         UseCases.dataPopulation();
+        UseCases.ownerWithTwoProperties();
 
         /*   Admin menu
         1. Owner Management
