@@ -151,5 +151,11 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         }
         return Optional.empty();
     }
+    
+//    @Override
+//    public Optional<Owner> updateEmail(Owner owner) {
+//        Owner owner = findByOwnerId(ownerId);
+//        owner.setEmail(email);
+//    }
 
 }

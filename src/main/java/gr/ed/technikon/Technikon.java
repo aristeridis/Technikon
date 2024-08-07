@@ -3,10 +3,11 @@ package gr.ed.technikon;
 import gr.ed.technikon.utility.JPAUtil;
 import gr.ed.technikon.utility.UseCases;
 import jakarta.persistence.EntityManager;
+import java.text.ParseException;
 
 public class Technikon {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         
         EntityManager m = JPAUtil.getEntityManager();
         System.out.println("Welcome to Technikon");
@@ -15,6 +16,8 @@ public class Technikon {
         System.out.println("3. Exit");
         UseCases.dataPopulation();
         UseCases.ownerWithTwoProperties();
+        UseCases.repairsForPropertiesOwner(9L);
+        UseCases.selectPropertiesFromOwnerById(3);
 
         /*   Admin menu
         1. Owner Management

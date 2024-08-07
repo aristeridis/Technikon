@@ -20,4 +20,6 @@ public interface OwnerRepositoryInterface<T, K, S> {
     boolean safeDeleteById(K id);
 
     Optional<T> update(T t);
+    
+//    Optional<T> updateEmail(T t);
 }

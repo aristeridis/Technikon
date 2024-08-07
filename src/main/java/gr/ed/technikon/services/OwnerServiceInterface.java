@@ -8,5 +8,6 @@ import java.util.List;
 public interface OwnerServiceInterface {
     boolean acceptance(Repair repair);
     List<Property>getPropertiesByOwnerId(Long ownerId);
+//    boolean updateEmail(int ownerId, String email);
 }
 
