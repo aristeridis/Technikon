@@ -9,20 +9,22 @@ import java.text.ParseException;
 public class Technikon {
 
     public static void main(String[] args) throws ParseException {
-        
+
         EntityManager m = JPAUtil.getEntityManager();
         System.out.println("Welcome to Technikon");
         System.out.println("1. Admin");
         System.out.println("2. Owner");
         System.out.println("3. Exit");
         UseCases.dataPopulation();
-        UseCases.ownerWithTwoProperties();
-        UseCases.repairsForPropertiesOwner(9L);
-        UseCases.selectPropertiesFromOwnerById(3);
-        UseCases.ownerAcceptanceOfRepairs(true, 3);
-        UseCases.adminGetsPendingRepairs();
-        UseCases.getProposedCost();
-        UseCases.adminchecksTheDates();
+//        UseCases.ownerWithTwoProperties();
+//        UseCases.repairsForPropertiesOwner(9L);
+//        UseCases.selectPropertiesFromOwnerById(3);
+//        UseCases.ownerAcceptanceOfRepairs(true, 3);
+//        UseCases.adminGetsPendingRepairs();
+//        UseCases.getProposedCost();
+//        UseCases.adminchecksTheDates();
+        UseCases.adminGetAllStartAndEndDates();
+        UseCases.adminGetAllPendingRepairsWithProposedCostAndDates();
 
         /*   Admin menu
         1. Owner Management

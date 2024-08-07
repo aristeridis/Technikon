@@ -134,16 +134,15 @@ public class UseCases {
             System.out.println("Pending Repairs" + rs.toString());
         }
     }
-    public static void getProposedCost(){
-             AdminService adminService = new AdminService();
-             for (BigDecimal bd : adminService.getProposedCost()){
-                 System.out.println("Proposed Cost: " +bd);
-             }
-                
-             
-         }  
-    
-   public static void adminchecksTheDates() {
+
+    public static void getProposedCost() {
+        AdminService adminService = new AdminService();
+        for (BigDecimal bd : adminService.getProposedCost()) {
+            System.out.println("Proposed Cost: " + bd);
+        }
+    }
+
+    public static void adminchecksTheDates() {
         System.out.print("Enter the Repair ID to check dates: ");
         Long repairId = scanner.nextLong();
 
@@ -157,20 +156,49 @@ public class UseCases {
         }
     }
 
-//    public static void getProposedStartEndDates() {
-//        AdminService adminService = new AdminService();
-//        for (Repair rs : adminService.proposedStartEndDates(proposedDateOfStart, proposedDateOfEnd)) {
-//            System.out.println("Pending Repairs" + rs.toString());
-//        }
-           
-           
+    public static void adminGetAllStartAndEndDates() {
+        System.out.println("|-------------------The Start and End Dates for all Repairs-------------------|");
+        AdminService adminService = new AdminService();
+        List<Repair> allRepairs = adminService.getAllRepairs();
 
-//    public static void adminGetsPendingRepairs() {
-//        AdminService adminService = new AdminService();
-//        for (Repair rs : adminService.getPendingRepairs()) {
-//            System.out.println("Pending Repairs" + rs.toString());
-//        }
-//    }
+        for (Repair repair : allRepairs) {
+            Date startDate = repair.getDateOfStart();
+            Date endDate = repair.getDateOfEnd();
+
+            if (startDate != null && endDate != null) {
+                System.out.println("Repair ID: " + repair.getRepairId());
+                System.out.println("Start Date: " + DATE_FORMAT.format(startDate));
+                System.out.println("End Date: " + DATE_FORMAT.format(endDate));
+            } else {
+                System.out.println("Repair ID: " + repair.getRepairId() + " has incomplete date information.");
+            }
+        }
+    }
+
+    public static void adminGetAllPendingRepairsWithProposedCostAndDates() throws ParseException {
+         System.out.println("|-------------------The Cost, Start and End Dates for Pending Repairs-------------------|");
+
+        List<Repair> pendingRepairs = adminService.getPendingRepairs();
+
+        for (Repair repair : pendingRepairs) {
+            Date proposedStartDate = repair.getProposedDateOfStart();
+            Date proposedEndDate = repair.getProposedDateOfEnd();
+            BigDecimal proposedCost = repair.getProposedCost();
+
+            System.out.println("Repair ID: " + repair.getRepairId());
+            System.out.println("Short Description: " + repair.getShortDescription());
+            System.out.println("Description of Work: " + repair.getDescriptionOfWork());
+            System.out.println("Proposed Cost: " + proposedCost);
+
+            if (proposedStartDate != null && proposedEndDate != null) {
+                System.out.println("Proposed Start Date: " + DATE_FORMAT.format(proposedStartDate));
+                System.out.println("Proposed End Date: " + DATE_FORMAT.format(proposedEndDate));
+            } else {
+                System.out.println("Proposed Dates: Not set.");
+            }
+            
+        }
+    }
 
     private Date parseDate(String dateStr) throws ParseException {
         Date date = DATE_FORMAT.parse(dateStr);
@@ -181,7 +209,7 @@ public class UseCases {
         try {
             return Long.parseLong(value.trim());
         } catch (NumberFormatException e) {
-            return -1; // Default or error value
+            return -1; 
         }
     }
 

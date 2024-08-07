@@ -29,28 +29,33 @@ public class AdminService implements AdminServiceInterface {
         rp.setProposedCost(proposedCost);
 
     }
-    
+
     public List<BigDecimal> getProposedCost() {
         Repair rp = new Repair();
         RepairRepository getRepairs = new RepairRepository();
         List<Repair> allRepairs = getRepairs.findAll();
         BigDecimal BDCost;
         List<BigDecimal> Costs = new ArrayList();
-        for(Repair repair : allRepairs){
+        for (Repair repair : allRepairs) {
             BDCost = rp.getProposedCost();
-               Costs.add(BDCost);
-               
+            Costs.add(BDCost);
+
         }
         return Costs;
-        
+
     }
-    
 
     @Override
     public List<Optional> proposedStartEndDates(Date proposedDateOfStart, Date proposedDateOfEnd) {
         RepairRepositoryInterface rri = new RepairRepository();
         return rri.findByRangeDates(proposedDateOfStart, proposedDateOfEnd);
 
+    }
+
+    public List<Repair> getAllRepairs() {
+        RepairRepository getRepairs = new RepairRepository();
+        List<Repair> allRepairs = getRepairs.findAll();
+        return getRepairs.findAll();
     }
 
     @Override
@@ -69,5 +74,18 @@ public class AdminService implements AdminServiceInterface {
 
         return rDates;
     }
-   
+
+    public void proposeCostsAndDates(Long repairId, BigDecimal proposedCost, Date proposedStartDate, Date proposedEndDate) {
+        RepairRepositoryInterface rri = new RepairRepository();
+        Optional<Repair> optionalRepair = rri.findById(repairId);
+        if (optionalRepair.isPresent()) {
+            Repair repair = optionalRepair.get();
+            if (RepairStatus.PENDING.equals(repair.getRepairStatus())) {
+                repair.setProposedCost(proposedCost);
+                repair.setProposedDateOfStart(proposedStartDate);
+                repair.setProposedDateOfEnd(proposedEndDate);
+            }
+        }
+    }
+
 }
