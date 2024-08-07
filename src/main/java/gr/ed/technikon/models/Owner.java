@@ -15,7 +15,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+
 public class Owner {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long OwnerId;
@@ -25,6 +27,7 @@ public class Owner {
     private String Name;
     @Column(nullable = false)
     private String SurName;
+    @Column(nullable = false)
     private String Address;
     @Column(nullable = false)
     private String PhoneNumber;
@@ -36,4 +39,6 @@ public class Owner {
     private String password;
     @OneToMany(mappedBy = "owner")
     private List<Property> propertyList;
+    @Column(nullable = false)
+    private boolean deletedOwner = false;
 }

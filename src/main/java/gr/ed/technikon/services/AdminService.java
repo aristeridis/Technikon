@@ -13,43 +13,45 @@ import java.util.stream.Collectors;
 
 public class AdminService implements AdminServiceInterface {
 
-	@Override
-	public List<Repair> getPendingRepairs() {
-		RepairRepository getRepairs = new RepairRepository();
-		List<Repair> allRepairs = getRepairs.findAll();
-		return allRepairs.stream().filter((Repair pendingRepair) -> RepairStatus.PENDING.equals(pendingRepair.getRepairStatus())).collect(Collectors.toList());
+    @Override
+    public List<Repair> getPendingRepairs() {
+        RepairRepository getRepairs = new RepairRepository();
+        List<Repair> allRepairs = getRepairs.findAll();
+        return allRepairs.stream().filter((Repair pendingRepair) -> RepairStatus.PENDING.equals(pendingRepair.getRepairStatus())).collect(Collectors.toList());
 
-	}
+    }
 
-	@Override
-	public void proposeCost(Long repairId, BigDecimal proposedCost) {
-		Repair rp = new Repair();
-		RepairRepositoryInterface rr = new RepairRepository();
-		rr.findById(repairId);
-		rp.setProposedCost(proposedCost);
+    @Override
+    public void proposeCost(Long repairId, BigDecimal proposedCost) {
+        Repair rp = new Repair();
+        RepairRepositoryInterface rr = new RepairRepository();
+        rr.findById(repairId);
+        rp.setProposedCost(proposedCost);
 
-	}
+    }
 
-	@Override
-	public List<Optional> proposedStartEndDates(Date proposedDateOfStart, Date proposedDateOfEnd) {
-		RepairRepositoryInterface rri = new RepairRepository();
-		return rri.findByRangeDates(proposedDateOfStart, proposedDateOfEnd);
+    @Override
+    public List<Optional> proposedStartEndDates(Date proposedDateOfStart, Date proposedDateOfEnd) {
+        RepairRepositoryInterface rri = new RepairRepository();
+        return rri.findByRangeDates(proposedDateOfStart, proposedDateOfEnd);
 
-	}
+    }
 
-	//@Override
-	public List<Date> checkActuallDate(Long repairId) {
-		RepairRepository rr = new RepairRepository();
-		Repair rp = new Repair();
-		List<Date> rDates=new ArrayList();
-		if (rr.findById(repairId).equals(repairId)) {
-			if (rp.getRepairStatus().equals(RepairStatus.COMPLETE)) {
-				rDates.add(rp.getDateOfStart());
-				rDates.add(rp.getDateOfEnd());
-			}
-		}
-			return rDates;
+    @Override
+    public List<Date> checkActuallDate(Long repairId) {
+        RepairRepository rr = new RepairRepository();
+        List<Date> rDates = new ArrayList<>();
 
-	}
+        Optional<Repair> optionalRepair = rr.findById(repairId);
+        if (optionalRepair.isPresent()) {
+            Repair rp = optionalRepair.get();
+            if (rp.getRepairStatus().equals(RepairStatus.COMPLETE)) {
+                rDates.add(rp.getDateOfStart());
+                rDates.add(rp.getDateOfEnd());
+            }
+        }
+
+        return rDates;
+    }
 
 }

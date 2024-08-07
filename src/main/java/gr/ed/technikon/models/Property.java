@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.List;
@@ -25,7 +24,8 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "property_id")
     private long propertyId;
-
+    @Column(unique = true)
+    private long E9;
     private String address;
     private int yearOfConstruction;
     private PropertyType propertyType;
@@ -36,11 +36,16 @@ public class Property {
     @OneToMany(mappedBy = "property")
     private List<Repair> repairList;
 
-    public Property(long propertyId, String address, int yearOfConstruction, PropertyType propertyType, Owner owner) {
-        this.propertyId = propertyId;
+    @Column(name = "is_deleted")
+    private boolean deletedProperty;
+
+    public Property(int E9, String address, int yearOfConstruction, PropertyType propertyType, Owner owner) {
+        this.E9 = E9;
         this.address = address;
         this.yearOfConstruction = yearOfConstruction;
         this.propertyType = propertyType;
         this.owner = owner;
+        this.propertyId = E9;
+
     }
 }

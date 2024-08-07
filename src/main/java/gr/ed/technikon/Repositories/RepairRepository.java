@@ -4,10 +4,11 @@ import gr.ed.technikon.models.Repair;
 import gr.ed.technikon.utility.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RepairRepository implements RepairRepositoryInterface<Repair, Long, Date> {
@@ -17,23 +18,8 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
     public RepairRepository() {
         entityManager = JPAUtil.getEntityManager();
     }
-
-    @Override
-    public List<Repair> findByOwnerId(Long ownerId) {
-        try {
-            entityManager.getTransaction().begin();
-            TypedQuery<Repair> query = entityManager.createQuery("SELECT repair FROM Repair repair WHERE repair.owner.id=:ownerId", Repair.class);
-            query.setParameter("ownerId", ownerId);
-            entityManager.getTransaction().commit();
-            return query.getResultList();
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            log.debug("Could not find an Owner with this ID" + ownerId);
-        }
-        return List.of();
-
-    }
-    @Override
+    
+      @Override
   public Optional<Repair> findById(Long repairId) {
         try {
             Repair repair = entityManager.find(Repair.class, repairId);
@@ -44,18 +30,35 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
         }
         return Optional.empty();
     }
+
+    @Override
+    public List<Repair> findByOwnerId(Long ownerId) {
+        try {
+            entityManager.getTransaction().begin();
+            TypedQuery<Repair> query = entityManager.createQuery("SELECT repair FROM Repair repair WHERE repair.owner.id = :ownerId", Repair.class);
+            query.setParameter("ownerId", ownerId);
+            List<Repair> repairs = query.getResultList();
+            entityManager.getTransaction().commit();
+            return repairs;
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Error finding repairs by owner ID: " + ownerId, e);
+        }
+        return List.of();
+    }
+
     @Override
     public List<Repair> findByDate(Date dateOfStart) {
         try {
             entityManager.getTransaction().begin();
-            TypedQuery<Repair> query = entityManager.createQuery("SELECT repair FROM Repair repair WHERE repair.dateOfStart=:dateOfStart", Repair.class);
+            TypedQuery<Repair> query = entityManager.createQuery("SELECT repair FROM Repair repair WHERE repair.dateOfStart = :dateOfStart", Repair.class);
             query.setParameter("dateOfStart", dateOfStart);
+            List<Repair> repairs = query.getResultList();
             entityManager.getTransaction().commit();
-            return query.getResultList();
-
+            return repairs;
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-            log.debug("Could not find any Repair to that date" + dateOfStart);
+            log.error("Error finding repairs by date: " + dateOfStart, e);
         }
         return List.of();
     }
@@ -67,20 +70,25 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
             TypedQuery<Repair> query = entityManager.createQuery("SELECT repair FROM Repair repair WHERE repair.dateOfSubmission BETWEEN :dateOfStart AND :dateOfEnd", Repair.class);
             query.setParameter("dateOfStart", dateOfStart);
             query.setParameter("dateOfEnd", dateOfEnd);
+            List<Repair> repairs = query.getResultList();
             entityManager.getTransaction().commit();
-            return query.getResultList();
+            return repairs;
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-            log.debug("Could not find any Repair to that date range" + dateOfStart + " " + dateOfEnd);
+            log.error("Error finding repairs by date range: " + dateOfStart + " to " + dateOfEnd, e);
         }
         return List.of();
     }
 
     @Override
     public List<Repair> findAll() {
-        TypedQuery<Repair> query
-                = entityManager.createQuery("from " + getEntityClassName(), getEntityClass());
-        return query.getResultList();
+        try {
+            TypedQuery<Repair> query = entityManager.createQuery("SELECT r FROM Repair r WHERE r.deleted = false", Repair.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            log.error("Error retrieving all repairs", e);
+        }
+        return List.of();
     }
 
     @Override
@@ -92,7 +100,7 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
             return Optional.of(repair);
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-            log.debug("Could not find Repair to update" + repair.toString());
+            log.error("Error saving repair: " + repair, e);
         }
         return Optional.empty();
     }
@@ -101,50 +109,48 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
     public Optional<Repair> update(Repair repair) {
         try {
             entityManager.getTransaction().begin();
-            repair.setRepairId(repair.getRepairId());
-            repair.setRepairType(repair.getRepairType());
-            repair.setDateOfSubmission(repair.getDateOfSubmission());
-            repair.setDescriptionOfWork(repair.getDescriptionOfWork());
-            repair.setProposedDateOfStart(repair.getProposedDateOfStart());
-            repair.setProposedDateOfEnd(repair.getProposedDateOfEnd());
-            repair.setProposedCost(repair.getProposedCost());
-            repair.setAcceptance(repair.isAcceptance());
-            repair.setRepairStatus(repair.getRepairStatus());
-            repair.setDateOfStart(repair.getDateOfStart());
-            repair.setDateOfStart(repair.getDateOfStart());
-            repair.setDateOfEnd(repair.getDateOfEnd());
+            repair = entityManager.merge(repair);
             entityManager.getTransaction().commit();
             return Optional.of(repair);
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-            log.debug("Could not find any Repair to that date" + repair.toString());
+            log.error("Error updating repair: " + repair, e);
         }
         return Optional.empty();
     }
 
     @Override
     public boolean deleteById(Long repairId) {
-        Repair persistentInstance = entityManager.find(getEntityClass(), repairId);
-        if (persistentInstance != null) {
-            try {
+        try {
+            Repair repair = entityManager.find(Repair.class, repairId);
+            if (repair != null) {
                 entityManager.getTransaction().begin();
-                entityManager.remove(persistentInstance);
+                entityManager.remove(repair);
                 entityManager.getTransaction().commit();
-            } catch (Exception e) {
-                entityManager.getTransaction().rollback();
-                log.debug("Could not delete Repair id" + repairId);
-                return false;
+                return true;
             }
-            return true;
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Error deleting repair with ID: " + repairId, e);
         }
         return false;
     }
 
-    private Class<Repair> getEntityClass() {
-        return Repair.class;
-    }
-
-    private String getEntityClassName() {
-        return Repair.class.getName();
+    @Override
+    public boolean safeDeleteById(Long repairId) {
+        try {
+            Repair repair = entityManager.find(Repair.class, repairId);
+            if (repair != null) {
+                entityManager.getTransaction().begin();
+                repair.setDeletedRepair(true);
+                entityManager.merge(repair);
+                entityManager.getTransaction().commit();
+                return true;
+            }
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Error safely deleting repair with ID: " + repairId, e);
+        }
+        return false;
     }
 }

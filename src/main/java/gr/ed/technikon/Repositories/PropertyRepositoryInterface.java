@@ -16,5 +16,7 @@ public interface PropertyRepositoryInterface<T, K> {
 
     boolean deleteById(K id);
 
+    boolean safeDeleteById(K id);
+
     Optional<T> update(T entity);
 }

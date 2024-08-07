@@ -14,6 +14,6 @@ public interface IOServiceInterface {
 
     int readPropertiesCsv(String filename);
 
-    //int readRepairFromCsv(String filename);
+    int readRepairsFromCsv(String filename);
 
 }

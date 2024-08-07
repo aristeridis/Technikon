@@ -14,6 +14,8 @@ public interface OwnerRepositoryInterface<T, K, S> {
     Optional<T> save(T t);
 
     boolean deleteById(K id);
+    
+    boolean safeDeleteById(K id);
 
     Optional<T> update(T t);
 }

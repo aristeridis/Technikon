@@ -1,3 +1,4 @@
+
 package gr.ed.technikon.Repositories;
 
 import gr.ed.technikon.models.Property;
@@ -47,10 +48,14 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
 
     @Override
     public List<Property> findAll() {
-        TypedQuery<Property> query
-                = entityManager.createQuery("from " + getEntityClassName(), getEntityClass());
-        return query.getResultList();
-
+        try {
+            TypedQuery<Property> query = entityManager.createQuery(
+                    "SELECT p FROM Property p WHERE p.deleted = false", Property.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            log.debug("Could not retrieve all Properties", e);
+            return List.of();
+        }
     }
 
     @Override
@@ -79,6 +84,24 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
             }
         } catch (Exception e) {
             log.debug("Could not delete Property with ID: " + propertyId);
+            entityManager.getTransaction().rollback();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean safeDeleteById(Long propertyId) {
+        try {
+            Property property = entityManager.find(Property.class, propertyId);
+            if (property != null) {
+                entityManager.getTransaction().begin();
+                property.setDeletedProperty(true);
+                entityManager.merge(property);
+                entityManager.getTransaction().commit();
+                return true;
+            }
+        } catch (Exception e) {
+            log.debug("Could not safely delete Property with ID: " + propertyId, e);
             entityManager.getTransaction().rollback();
         }
         return false;

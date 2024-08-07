@@ -5,8 +5,9 @@ import java.util.Optional;
 
 public interface RepairRepositoryInterface<T, K, D> {
 
-    List<T> findByOwnerId(K ownerId);
     Optional<T> findById(K repairId);
+
+    List<T> findByOwnerId(K ownerId);
 
     List<T> findByDate(D date);
 
@@ -19,5 +20,7 @@ public interface RepairRepositoryInterface<T, K, D> {
     Optional<T> save(T t);
 
     boolean deleteById(K repairId);
+
+    boolean safeDeleteById(K repairId);
 
 }
