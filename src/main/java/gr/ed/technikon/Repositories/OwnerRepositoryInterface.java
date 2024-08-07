@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OwnerRepositoryInterface<T, K, S> {
+    
+    Optional<T> findByOwnerId(K id);
 
     Optional<T> findByVatNumber(K vt);
 

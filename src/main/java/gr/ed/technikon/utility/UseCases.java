@@ -36,7 +36,7 @@ public class UseCases {
         System.out.println("|-------------------Read Data from csv files-------------------|");
         ioService.readOwnersCsv("data" + separator + "owner.csv");
         ioService.readPropertiesCsv("data" + separator + "property.csv");
-        ioService.readRepairsFromCsv("data" + separator + "repair.csv");
+//        ioService.readRepairsFromCsv("data" + separator + "repair.csv");
 
         System.out.println();
         System.out.println("|-------------------Reading Completing-------------------|");

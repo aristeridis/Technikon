@@ -1,6 +1,7 @@
 package gr.ed.technikon.Repositories;
 
 import gr.ed.technikon.models.Owner;
+import gr.ed.technikon.models.Property;
 import gr.ed.technikon.utility.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -15,6 +16,18 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
 
     public OwnerRepository() {
         entityManager = JPAUtil.getEntityManager();
+    }
+    
+    @Override
+    public Optional<Owner> findByOwnerId(Long ownerId) {
+        try {
+            Owner owner = entityManager.find(Owner.class, ownerId);
+            return Optional.ofNullable(owner);
+        } catch (Exception e) {
+            log.debug("Could not find Owner with ID: " + ownerId);
+            entityManager.getTransaction().rollback();
+        }
+        return Optional.empty();
     }
 
     @Override

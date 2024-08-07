@@ -35,7 +35,7 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
         try {
             entityManager.getTransaction().begin();
             TypedQuery<Property> query = entityManager.createQuery(
-                    "SELECT p FROM Property p WHERE p.owner.id = :ownerId", Property.class); //paizei na einai ownerId
+                    "SELECT p FROM Property p WHERE p.owner.OwnerId = :ownerId", Property.class); //paizei na einai ownerId
             query.setParameter("ownerId", ownerId);
             entityManager.getTransaction().commit();
             return query.getResultList();

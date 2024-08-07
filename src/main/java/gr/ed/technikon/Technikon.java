@@ -13,7 +13,7 @@ public class Technikon {
         System.out.println("1. Admin");
         System.out.println("2. Owner");
         System.out.println("3. Exit");
-        //UseCases.dataPopulation();
+        UseCases.dataPopulation();
 
         /*   Admin menu
         1. Owner Management
