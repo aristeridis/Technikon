@@ -15,6 +15,9 @@ import gr.ed.technikon.Repositories.RepairRepositoryInterface;
 import gr.ed.technikon.enums.PropertyType;
 import gr.ed.technikon.enums.RepairStatus;
 import gr.ed.technikon.enums.RepairType;
+import gr.ed.technikon.exceptions.CustomException;
+import gr.ed.technikon.exceptions.OwnerNotFoundException;
+import gr.ed.technikon.exceptions.ResourceNotFoundException;
 import gr.ed.technikon.models.Property;
 import gr.ed.technikon.models.Repair;
 import gr.ed.technikon.services.AdminService;
@@ -27,7 +30,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-
 
 public class UseCases {
 
@@ -85,17 +87,22 @@ public class UseCases {
 
             propertyRepo.save(property1);
             propertyRepo.save(property2);
-            
+
             System.out.println("|-----------------------------new owner with two properties achieved-----------------------------------|");
         }
 
     }
 
-    public static Repair repairsForPropertiesOwner(long propertyId) throws ParseException {
+    public static Repair repairsForPropertiesOwner(long propertyId) throws ParseException, CustomException {
         System.out.println("|-------------------4.3-------------------|");
-        Optional<Property> propertyOwner = propertyRepo.findById(propertyId);
-        property = propertyOwner.get();
-        repair = new Repair();
+        try {
+            Optional<Property> propertyOwner = propertyRepo.findById(propertyId);
+            property = propertyOwner.get();
+
+            repair = new Repair();
+        } catch (Exception e) {
+            throw new CustomException("Property not found");
+        }
         repair.setDateOfSubmission(DATE_FORMAT.parse("19-09-2024"));
 //        repair.setDeletedRepair(false);
         repair.setDescriptionOfWork("Painting of the living room walls in shades of grey.");
@@ -104,40 +111,49 @@ public class UseCases {
         repair.setRepairStatus(RepairStatus.PENDING);
         repair.setProperty(property);
         repairRepo.save(repair);
-         System.out.println("|-----------------------------new repair for property owner achieved-----------------------------------|");
+        System.out.println("|-----------------------------new repair for property owner achieved-----------------------------------|");
         return repair;
-        
-        
+
     }
 
     public static void selectPropertiesFromOwnerById(long ownerId) {
-        Optional<Owner> ownerProperty = ownerRepo.findByOwnerId(ownerId);
+        try {
+            Optional<Owner> ownerProperty = ownerRepo.findByOwnerId(ownerId);
 //          owner = ownerProperty.get();
-        OwnerService ownerService = new OwnerService(propertyRepo);
+            OwnerService ownerService = new OwnerService(propertyRepo);
+        } catch (Exception e) {
+            throw new OwnerNotFoundException("Owner not Found");
+        }
         for (Property property : ownerService.getPropertiesByOwnerId(ownerId)) {
             System.out.println("The property ID for this unique ownerID is/are: " + property.getPropertyId());
-            
+
             System.out.println("|-----------------------------END-----------------------------------|");
+
         }
 
     }
-//      Den apothikeuetai sth vash
 
-    public static boolean ownerAcceptanceOfRepairs(long repairId) throws ParseException {
-		System.out.println("|-------------------4.4-------------------|");
-		OwnerService ownerService = new OwnerService(propertyRepo);
-		Optional<Repair> repair = repairRepo.findById(repairId);
-		if (repair.isEmpty()) {
-			return false;
-		}
-		Repair repairObj = repair.get();
+    public static boolean ownerAcceptanceOfRepairs(long repairId) throws ParseException, ResourceNotFoundException {
+        System.out.println("|-------------------4.4-------------------|");
+        try {
+            OwnerService ownerService = new OwnerService(propertyRepo);
 
-		Boolean rp = ownerService.acceptance(repairObj);
-		repairRepo.save(repairObj);
-                System.out.println("|-----------------------------acceptance achieved-----------------------------------|");
-		return rp;
+            Optional<Repair> repair = repairRepo.findById(repairId);
 
-	}
+            if (repair.isEmpty()) {
+                return false;
+            }
+            Repair repairObj = repair.get();
+
+            Boolean rp = ownerService.acceptance(repairObj);
+            repairRepo.save(repairObj);
+            System.out.println("|-----------------------------acceptance achieved-----------------------------------|");
+            return rp;
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("");
+        }
+           
+    }
 
     public static void adminGetsPendingRepairs() {
         AdminService adminService = new AdminService();
@@ -147,29 +163,28 @@ public class UseCases {
     }
 
     public static void adminGetsAllPendingRepairsWithProposedCostAndDates() throws ParseException {
-		List<Repair> pendingRepairs = adminService.getPendingRepairs();
+        List<Repair> pendingRepairs = adminService.getPendingRepairs();
 
-		for (Repair repair : pendingRepairs) {
-			Date proposedStartDate = repair.getProposedDateOfStart();
-			Date proposedEndDate = repair.getProposedDateOfEnd();
-			BigDecimal proposedCost = repair.getProposedCost();
+        for (Repair repair : pendingRepairs) {
+            Date proposedStartDate = repair.getProposedDateOfStart();
+            Date proposedEndDate = repair.getProposedDateOfEnd();
+            BigDecimal proposedCost = repair.getProposedCost();
 
-			System.out.println("Repair ID: " + repair.getRepairId());
-			System.out.println("Short Description: " + repair.getShortDescription());
-			System.out.println("Description of Work: " + repair.getDescriptionOfWork());
-			System.out.println("Proposed Cost: " + proposedCost);
+            System.out.println("Repair ID: " + repair.getRepairId());
+            System.out.println("Short Description: " + repair.getShortDescription());
+            System.out.println("Description of Work: " + repair.getDescriptionOfWork());
+            System.out.println("Proposed Cost: " + proposedCost);
 
-			if (proposedStartDate != null && proposedEndDate != null) {
-				System.out.println("Proposed Start Date: " + DATE_FORMAT.format(proposedStartDate));
-				System.out.println("Proposed End Date: " + DATE_FORMAT.format(proposedEndDate));
-			} else {
-				System.out.println("Proposed Dates: Not set.");
-			}
-                       
+            if (proposedStartDate != null && proposedEndDate != null) {
+                System.out.println("Proposed Start Date: " + DATE_FORMAT.format(proposedStartDate));
+                System.out.println("Proposed End Date: " + DATE_FORMAT.format(proposedEndDate));
+            } else {
+                System.out.println("Proposed Dates: Not set.");
+            }
 
-		}
-                 System.out.println("|-----------------------------END-----------------------------------|");
-	}
+        }
+        System.out.println("|-----------------------------END-----------------------------------|");
+    }
 
     public static void generateOwnerReport() {
         System.out.println("|-----------------------------START-----------------------------|");
@@ -178,7 +193,7 @@ public class UseCases {
         System.out.print("Enter the Owner ID: ");
         long ownerId = scanner.nextLong();
 
-        List<Property> properties = propertyRepo.findByOwnerId(ownerId);
+        try {List<Property> properties = propertyRepo.findByOwnerId(ownerId);
 
         if (properties.isEmpty()) {
             System.out.println("No properties found for this owner.");
@@ -206,17 +221,20 @@ public class UseCases {
                     }
                 }
                 System.out.println();
-            }
+            
+            } 
         }
+        }catch (Exception e){
+                    throw new OwnerNotFoundException("Owner not Found");
+                    }
 
         System.out.println("|----------------------------END OF OWNER REPORT-----------------------------|");
     }
-    
+
     public static void generateAdminReport() {
         System.out.println("|-----------------------------ADMIN REPORT-----------------------------|");
 
         System.out.println("Generating full report for all repairs:");
-
 
         List<Repair> repairs = repairRepo.findAll();
 
@@ -272,5 +290,4 @@ public class UseCases {
 //    private String formatDate(Date date) {
 //        return date == null ? "" : DATE_FORMAT.format(date);
 //    }
-
 }

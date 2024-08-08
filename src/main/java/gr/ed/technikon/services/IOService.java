@@ -6,6 +6,7 @@ import gr.ed.technikon.Repositories.RepairRepositoryInterface;
 import gr.ed.technikon.enums.PropertyType;
 import gr.ed.technikon.enums.RepairStatus;
 import gr.ed.technikon.enums.RepairType;
+import gr.ed.technikon.exceptions.ResourceNotFoundException;
 import gr.ed.technikon.models.Owner;
 import gr.ed.technikon.models.Property;
 import gr.ed.technikon.models.Repair;
@@ -41,8 +42,8 @@ public class IOService implements IOServiceInterface {
 
     @Override
     public void saveOwnersToCsv(String filename) {
-        List<Owner> ownerList = ownerRepository.findAll();
-        try (PrintWriter pw = new PrintWriter(new File(filename))) {
+        try{ List<Owner> ownerList = ownerRepository.findAll();
+         PrintWriter pw = new PrintWriter(new File(filename));
             pw.println("id,username,password,vatNumber,name,surname,address,phoneNumber,email");
             for (Owner owner : ownerList) {
                 pw.println(String.join(",",
@@ -58,6 +59,8 @@ public class IOService implements IOServiceInterface {
             }
         } catch (FileNotFoundException e) {
             log.error("Error writing owners to CSV file '{}'", filename, e);
+        } catch (Exception e){
+            throw new ResourceNotFoundException ("Resource not found");
         }
     }
 

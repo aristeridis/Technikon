@@ -1,5 +1,6 @@
 package gr.ed.technikon.Repositories;
 
+import gr.ed.technikon.exceptions.CustomException;
 import java.util.List;
 import java.util.Optional;
 

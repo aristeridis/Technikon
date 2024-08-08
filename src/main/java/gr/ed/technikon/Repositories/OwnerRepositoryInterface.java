@@ -1,5 +1,6 @@
 package gr.ed.technikon.Repositories;
 
+import gr.ed.technikon.exceptions.ResourceNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ public interface OwnerRepositoryInterface<T, K, S> {
 
     Optional<T> findByEmail(S s);
 
-    List<T> findAll();
+    List<T> findAll() throws ResourceNotFoundException;
 
     Optional<T> save(T t);
 

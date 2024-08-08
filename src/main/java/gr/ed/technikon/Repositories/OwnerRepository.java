@@ -1,5 +1,7 @@
 package gr.ed.technikon.Repositories;
 
+import gr.ed.technikon.exceptions.OwnerNotFoundException;
+import gr.ed.technikon.exceptions.ResourceNotFoundException;
 import gr.ed.technikon.models.Owner;
 import gr.ed.technikon.utility.JPAUtil;
 import jakarta.persistence.EntityManager;
@@ -22,9 +24,10 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         try {
             Owner owner = entityManager.find(Owner.class, ownerId);
             return Optional.ofNullable(owner);
-        } catch (Exception e) {
+        } catch (OwnerNotFoundException onfe) {
             log.debug("Could not find Owner with ID: " + ownerId);
             entityManager.getTransaction().rollback();
+            System.out.println(onfe.getMessage()); 
         }
         return Optional.empty();
     }
@@ -39,9 +42,10 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
             Owner owner = query.getSingleResult();
             entityManager.getTransaction().commit();
             return Optional.of(owner);
-        } catch (Exception e) {
-            log.debug("Could not find an Owner with this VAT number", e);
+        } catch (OwnerNotFoundException onfe) {
+            log.debug("Could not find an Owner with this VAT number");
             entityManager.getTransaction().rollback();
+            System.out.println(onfe.getMessage());
         }
         return Optional.empty();
     }
@@ -57,8 +61,7 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
             entityManager.getTransaction().commit();
             return Optional.of(owner);
         } catch (Exception e) {
-            log.debug("Could not find Owner with this email", e);
-            entityManager.getTransaction().rollback();
+            e.getMessage();
         }
         return Optional.empty();
     }
@@ -94,10 +97,17 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
     }
 
     @Override
-    public List<Owner> findAll() {
+    public List<Owner> findAll() throws ResourceNotFoundException {
+        try{
+                  
         TypedQuery<Owner> query = entityManager.createQuery(
                 "SELECT o FROM Owner o WHERE o.deletedOwner = false", Owner.class);
         return query.getResultList();
+        }catch (ResourceNotFoundException rnfe){
+            System.out.println(rnfe.getMessage());
+            
+        }
+        return null;
     }
 
     private Class<Owner> getEntityClass() {

@@ -1,9 +1,12 @@
 package gr.ed.technikon.Repositories;
 
+import gr.ed.technikon.exceptions.CustomException;
+import gr.ed.technikon.exceptions.OwnerNotFoundException;
 import gr.ed.technikon.models.Property;
 import gr.ed.technikon.utility.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import java.text.ParseException;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +21,14 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
     }
 
     @Override
-    public Optional<Property> findById(Long propertyId) {
+    public Optional<Property> findById(Long propertyId){
         try {
             Property property = entityManager.find(Property.class, propertyId);
             return Optional.ofNullable(property);
         } catch (Exception e) {
             log.debug("Could not find Property with ID: " + propertyId);
             entityManager.getTransaction().rollback();
+            e.getMessage();
         }
         return Optional.empty();
     }
@@ -38,9 +42,10 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
             query.setParameter("ownerId", ownerId);
             entityManager.getTransaction().commit();
             return query.getResultList();
-        } catch (Exception e) {
+        } catch (OwnerNotFoundException oe) {
             log.debug("Could not find Properties for Owner ID: " + ownerId);
             entityManager.getTransaction().rollback();
+            System.out.println(oe.getMessage());
         }
         return List.of();
     }

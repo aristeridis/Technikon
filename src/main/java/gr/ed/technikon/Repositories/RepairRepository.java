@@ -1,5 +1,6 @@
 package gr.ed.technikon.Repositories;
 
+import gr.ed.technikon.exceptions.ResourceNotFoundException;
 import gr.ed.technikon.models.Repair;
 import gr.ed.technikon.utility.JPAUtil;
 import jakarta.persistence.EntityManager;
@@ -24,8 +25,9 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
             Repair repair = entityManager.find(Repair.class, repairId);
             return Optional.ofNullable(repair);
         } catch (Exception e) {
-            log.debug("Could not find Property with ID: " + repairId);
+            //log.debug("Could not find Property with ID: " + repairId);
             entityManager.getTransaction().rollback();
+            System.out.println(e.getMessage());
         }
         return Optional.empty();
     }
