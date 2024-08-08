@@ -19,11 +19,8 @@ public class Technikon {
         UseCases.ownerWithTwoProperties();
         UseCases.repairsForPropertiesOwner(9L);
         UseCases.selectPropertiesFromOwnerById(3);
-        UseCases.ownerAcceptanceOfRepairs(true, 3);
-        UseCases.adminGetsPendingRepairs();
-        UseCases.getProposedCost();
-        UseCases.adminchecksTheDates();
-        UseCases.adminGetsAllStartAndEndDates();
+        UseCases.repairsForPropertiesOwner(20L);
+        UseCases.ownerAcceptanceOfRepairs(true, 7L);
         UseCases.adminGetsAllPendingRepairsWithProposedCostAndDates();
 
         /*   Admin menu

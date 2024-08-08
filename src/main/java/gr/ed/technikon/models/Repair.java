@@ -49,6 +49,7 @@ public class Repair {
 
     @Column(nullable = true)
     private boolean acceptance;
+    
     @Column(nullable = true)
     private RepairStatus repairStatus;
 
@@ -64,7 +65,7 @@ public class Repair {
     
     
 
-//    private boolean deletedRepair;
+    private boolean deletedRepair;
 
     @Override
     public String toString() {

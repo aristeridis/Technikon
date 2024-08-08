@@ -21,6 +21,6 @@ public interface RepairRepositoryInterface<T, K, D> {
 
     boolean deleteById(K repairId);
 
-//    boolean safeDeleteById(K repairId);
+    boolean safeDeleteById(K repairId);
 
 }

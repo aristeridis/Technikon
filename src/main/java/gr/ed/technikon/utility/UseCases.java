@@ -119,12 +119,14 @@ public class UseCases {
     }
 //      Den apothikeuetai sth vash
 
-    public static boolean ownerAcceptanceOfRepairs(Boolean b, long propertyId) throws ParseException {
+    public static boolean ownerAcceptanceOfRepairs(Boolean b, long repairId) throws ParseException {
         System.out.println("|-------------------4.4-------------------|");
         OwnerService ownerService = new OwnerService(propertyRepo);
-        Repair repair = repairsForPropertiesOwner(propertyId);
-        repairRepo.save(repair);
-        return ownerService.acceptance(repair);
+        Optional<Repair> repair = repairRepo.findById(repairId);
+        Repair repairObj = repair.get();
+        Boolean rp = ownerService.acceptance(repairObj);
+        repairRepo.save(repairObj);
+        return rp;
 
     }
 
@@ -134,47 +136,7 @@ public class UseCases {
             System.out.println("Pending Repairs" + rs.toString());
         }
     }
-
-    public static void getProposedCost() {
-        AdminService adminService = new AdminService();
-        for (BigDecimal bd : adminService.getProposedCost()) {
-            System.out.println("Proposed Cost: " + bd);
-        }
-    }
-
-    public static void adminchecksTheDates() {
-        System.out.print("Enter the Repair ID to check dates: ");
-        Long repairId = scanner.nextLong();
-
-        List<Date> repairDates = adminService.checkActuallDate(repairId);
-
-        if (repairDates.isEmpty()) {
-            System.out.println("No dates found for the given repair ID.");
-        } else {
-            System.out.println("Start Date: " + repairDates.get(0));
-            System.out.println("End Date: " + repairDates.get(1));
-        }
-    }
-
-    public static void adminGetsAllStartAndEndDates() {
-        System.out.println("|-------------------The Start and End Dates for all Repairs-------------------|");
-        AdminService adminService = new AdminService();
-        List<Repair> allRepairs = adminService.getAllRepairs();
-
-        for (Repair repair : allRepairs) {
-            Date startDate = repair.getDateOfStart();
-            Date endDate = repair.getDateOfEnd();
-
-            if (startDate != null && endDate != null) {
-                System.out.println("Repair ID: " + repair.getRepairId());
-                System.out.println("Start Date: " + DATE_FORMAT.format(startDate));
-                System.out.println("End Date: " + DATE_FORMAT.format(endDate));
-            } else {
-                System.out.println("Repair ID: " + repair.getRepairId() + " has incomplete date information.");
-            }
-        }
-    }
-
+    
     public static void adminGetsAllPendingRepairsWithProposedCostAndDates() throws ParseException {
          System.out.println("|-------------------The Cost, Start and End Dates for Pending Repairs-------------------|");
 

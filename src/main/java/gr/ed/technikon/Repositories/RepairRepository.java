@@ -136,21 +136,21 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
         return false;
     }
 
-//    @Override
-//    public boolean safeDeleteById(Long repairId) {
-//        try {
-//            Repair repair = entityManager.find(Repair.class, repairId);
-//            if (repair != null) {
-//                entityManager.getTransaction().begin();
-//                repair.setDeletedRepair(true);
-//                entityManager.merge(repair);
-//                entityManager.getTransaction().commit();
-//                return true;
-//            }
-//        } catch (Exception e) {
-//            entityManager.getTransaction().rollback();
-//            log.error("Error safely deleting repair with ID: " + repairId, e);
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean safeDeleteById(Long repairId) {
+        try {
+            Repair repair = entityManager.find(Repair.class, repairId);
+            if (repair != null) {
+                entityManager.getTransaction().begin();
+                repair.setDeletedRepair(true);
+                entityManager.merge(repair);
+                entityManager.getTransaction().commit();
+                return true;
+            }
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Error safely deleting repair with ID: " + repairId, e);
+        }
+        return false;
+    }
 }
