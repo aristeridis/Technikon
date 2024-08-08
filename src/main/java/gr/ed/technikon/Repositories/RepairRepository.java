@@ -24,10 +24,10 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
         try {
             Repair repair = entityManager.find(Repair.class, repairId);
             return Optional.ofNullable(repair);
-        } catch (Exception e) {
+        } catch (ResourceNotFoundException rnfe) {
             //log.debug("Could not find Property with ID: " + repairId);
             entityManager.getTransaction().rollback();
-            System.out.println(e.getMessage());
+            System.out.println(rnfe.getMessage());
         }
         return Optional.empty();
     }
@@ -89,8 +89,9 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
         try {
             TypedQuery<Repair> query = entityManager.createQuery("SELECT r FROM Repair r", Repair.class);
             return query.getResultList();
-        } catch (Exception e) {
-            log.error("Error retrieving all repairs", e);
+        } catch (ResourceNotFoundException rnfe) {
+            log.error("Error retrieving all repairs");
+            System.out.println(rnfe.getMessage());
         }
         return List.of();
     }

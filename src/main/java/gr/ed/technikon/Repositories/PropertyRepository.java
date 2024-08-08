@@ -21,14 +21,14 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
     }
 
     @Override
-    public Optional<Property> findById(Long propertyId){
+    public Optional<Property> findById(Long propertyId) {
         try {
             Property property = entityManager.find(Property.class, propertyId);
             return Optional.ofNullable(property);
-        } catch (Exception e) {
+        } catch (CustomException ce) {
             log.debug("Could not find Property with ID: " + propertyId);
             entityManager.getTransaction().rollback();
-            e.getMessage();
+            System.out.println(ce.getMessage());
         }
         return Optional.empty();
     }
@@ -143,5 +143,4 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
 //    private String getEntityClassName() {
 //        return Property.class.getName();
 //    }
-
 }

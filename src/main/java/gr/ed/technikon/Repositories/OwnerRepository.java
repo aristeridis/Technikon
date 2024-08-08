@@ -27,7 +27,7 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         } catch (OwnerNotFoundException onfe) {
             log.debug("Could not find Owner with ID: " + ownerId);
             entityManager.getTransaction().rollback();
-            System.out.println(onfe.getMessage()); 
+            System.out.println(onfe.getMessage());
         }
         return Optional.empty();
     }
@@ -98,14 +98,14 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
 
     @Override
     public List<Owner> findAll() throws ResourceNotFoundException {
-        try{
-                  
-        TypedQuery<Owner> query = entityManager.createQuery(
-                "SELECT o FROM Owner o WHERE o.deletedOwner = false", Owner.class);
-        return query.getResultList();
-        }catch (ResourceNotFoundException rnfe){
+        try {
+
+            TypedQuery<Owner> query = entityManager.createQuery(
+                    "SELECT o FROM Owner o WHERE o.deletedOwner = false", Owner.class);
+            return query.getResultList();
+        } catch (ResourceNotFoundException rnfe) {
             System.out.println(rnfe.getMessage());
-            
+
         }
         return null;
     }

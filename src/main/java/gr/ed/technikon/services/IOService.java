@@ -42,8 +42,9 @@ public class IOService implements IOServiceInterface {
 
     @Override
     public void saveOwnersToCsv(String filename) {
-        try{ List<Owner> ownerList = ownerRepository.findAll();
-         PrintWriter pw = new PrintWriter(new File(filename));
+        try {
+            List<Owner> ownerList = ownerRepository.findAll();
+            PrintWriter pw = new PrintWriter(new File(filename));
             pw.println("id,username,password,vatNumber,name,surname,address,phoneNumber,email");
             for (Owner owner : ownerList) {
                 pw.println(String.join(",",
@@ -59,8 +60,8 @@ public class IOService implements IOServiceInterface {
             }
         } catch (FileNotFoundException e) {
             log.error("Error writing owners to CSV file '{}'", filename, e);
-        } catch (Exception e){
-            throw new ResourceNotFoundException ("Resource not found");
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Resource not found");
         }
     }
 
@@ -213,7 +214,7 @@ public class IOService implements IOServiceInterface {
             return Long.parseLong(value.trim());
         } catch (NumberFormatException e) {
             log.warn("Invalid number format for value '{}'", value);
-            return -1; 
+            return -1;
         }
     }
 

@@ -1,4 +1,5 @@
 package gr.ed.technikon;
+
 import gr.ed.technikon.utility.JPAUtil;
 import gr.ed.technikon.utility.UseCases;
 import java.text.ParseException;

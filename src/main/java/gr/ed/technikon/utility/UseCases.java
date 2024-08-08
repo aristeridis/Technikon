@@ -152,7 +152,7 @@ public class UseCases {
         } catch (Exception e) {
             throw new ResourceNotFoundException("");
         }
-           
+
     }
 
     public static void adminGetsPendingRepairs() {
@@ -193,40 +193,35 @@ public class UseCases {
         System.out.print("Enter the Owner ID: ");
         long ownerId = scanner.nextLong();
 
-        try {List<Property> properties = propertyRepo.findByOwnerId(ownerId);
+        try {
+            List<Property> properties = propertyRepo.findByOwnerId(ownerId);
 
-        if (properties.isEmpty()) {
-            System.out.println("No properties found for this owner.");
-        } else {
-            for (Property property : properties) {
+            if (properties.isEmpty()) {
+                System.out.println("No properties found for this owner.");
+            } else {
+                for (Property property : properties) {
 //            System.out.println("Property ID: " + property.getPropertyId());
-                System.out.println("Address: " + property.getAddress());
-                System.out.println("Year of Construction: " + property.getYearOfConstruction());
-                System.out.println("Type: " + property.getPropertyType());
+                    System.out.println("Address: " + property.getAddress());
+                    System.out.println("Year of Construction: " + property.getYearOfConstruction());
+                    System.out.println("Type: " + property.getPropertyType());
 
-                List<Repair> repairs = repairRepo.findByPropertyId(property.getPropertyId());
+                    List<Repair> repairs = repairRepo.findByPropertyId(property.getPropertyId());
 
-                if (repairs.isEmpty()) {
-                    System.out.println("No repairs found for this property/properties .");
-                } else {
-                    for (Repair repair : repairs) {
-//                    System.out.println("Repair ID: " + repair.getRepairId());
-//                    System.out.println("Repair Type: " + repair.getRepairType());
-//                    System.out.println("Short Description: " + repair.getShortDescription());
-//                    System.out.println("Date of Submission: " + repair.getDateOfSubmission());
-//                    System.out.println("Description of Work: " + repair.getDescriptionOfWork());
-//                    System.out.println("Proposed Date of Start: " + repair.getProposedDateOfStart());
-                        System.out.println("Repair Status: " + repair.getRepairStatus());
-                        System.out.println("---------------------------");
+                    if (repairs.isEmpty()) {
+                        System.out.println("No repairs found for this property/properties .");
+                    } else {
+                        for (Repair repair : repairs) {
+                            System.out.println("Repair Status: " + repair.getRepairStatus());
+                            System.out.println("---------------------------");
+                        }
                     }
+                    System.out.println();
+
                 }
-                System.out.println();
-            
-            } 
+            }
+        } catch (Exception e) {
+            throw new OwnerNotFoundException("Owner not Found");
         }
-        }catch (Exception e){
-                    throw new OwnerNotFoundException("Owner not Found");
-                    }
 
         System.out.println("|----------------------------END OF OWNER REPORT-----------------------------|");
     }
@@ -236,28 +231,32 @@ public class UseCases {
 
         System.out.println("Generating full report for all repairs:");
 
-        List<Repair> repairs = repairRepo.findAll();
+        try {
+            List<Repair> repairs = repairRepo.findAll();
 
-        if (repairs.isEmpty()) {
-            System.out.println("No repairs found.");
-        } else {
-            for (Repair repair : repairs) {
-                System.out.println("Repair ID: " + repair.getRepairId());
+            if (repairs.isEmpty()) {
+                System.out.println("No repairs found.");
+            } else {
+                for (Repair repair : repairs) {
+                    System.out.println("Repair ID: " + repair.getRepairId());
 
-                if (repair.getProperty() != null) {
-                    System.out.println("Property ID: " + repair.getProperty().getPropertyId());
-                } else {
-                    System.out.println("Property: Not assigned");
+                    if (repair.getProperty() != null) {
+                        System.out.println("Property ID: " + repair.getProperty().getPropertyId());
+                    } else {
+                        System.out.println("Property: Not assigned");
+                    }
+
+                    System.out.println("Type: " + repair.getRepairType());
+                    System.out.println("Short Description: " + repair.getShortDescription());
+                    System.out.println("Date of Submission: " + repair.getDateOfSubmission());
+                    System.out.println("Description of Work: " + repair.getDescriptionOfWork());
+                    System.out.println("Proposed Date of Start: " + repair.getProposedDateOfStart());
+                    System.out.println("Repair Status: " + repair.getRepairStatus());
+                    System.out.println("---------------------------");
                 }
-
-                System.out.println("Type: " + repair.getRepairType());
-                System.out.println("Short Description: " + repair.getShortDescription());
-                System.out.println("Date of Submission: " + repair.getDateOfSubmission());
-                System.out.println("Description of Work: " + repair.getDescriptionOfWork());
-                System.out.println("Proposed Date of Start: " + repair.getProposedDateOfStart());
-                System.out.println("Repair Status: " + repair.getRepairStatus());
-                System.out.println("---------------------------");
             }
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Resource not found");
         }
 
         System.out.println("|-----------------------------END OF ADMIN REPORT-----------------------------|");
