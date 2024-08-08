@@ -1,4 +1,3 @@
-
 package gr.ed.technikon.Repositories;
 
 import gr.ed.technikon.models.Property;
@@ -132,12 +131,12 @@ public class PropertyRepository implements PropertyRepositoryInterface<Property,
         return Optional.empty();
     }
 
-    private Class<Property> getEntityClass() {
-        return Property.class;
-    }
-
-    private String getEntityClassName() {
-        return Property.class.getName();
-    }
+//    private Class<Property> getEntityClass() {
+//        return Property.class;
+//    }
+//
+//    private String getEntityClassName() {
+//        return Property.class.getName();
+//    }
 
 }

@@ -34,10 +34,10 @@ public class Repair {
 
     @Column(nullable = true)
     private Date dateOfSubmission;
-    
+
     @Column(nullable = true)
     private String descriptionOfWork;
-    
+
     @Column(nullable = true)
     private Date proposedDateOfStart;
 
@@ -49,7 +49,7 @@ public class Repair {
 
     @Column(nullable = true)
     private boolean acceptance;
-    
+
     @Column(nullable = true)
     private RepairStatus repairStatus;
 
@@ -59,13 +59,11 @@ public class Repair {
     @Column(nullable = true)
     private Date dateOfEnd;
 
+    private boolean deletedRepair;
+
     @ManyToOne
     @JoinColumn(name = "propertyId")
     private Property property;
-    
-    
-
-    private boolean deletedRepair;
 
     @Override
     public String toString() {

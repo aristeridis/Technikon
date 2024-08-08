@@ -5,7 +5,6 @@ import gr.ed.technikon.utility.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +17,9 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
     public RepairRepository() {
         entityManager = JPAUtil.getEntityManager();
     }
-    
-      @Override
-  public Optional<Repair> findById(Long repairId) {
+
+    @Override
+    public Optional<Repair> findById(Long repairId) {
         try {
             Repair repair = entityManager.find(Repair.class, repairId);
             return Optional.ofNullable(repair);
@@ -32,17 +31,20 @@ public class RepairRepository implements RepairRepositoryInterface<Repair, Long,
     }
 
     @Override
-    public List<Repair> findByOwnerId(Long ownerId) {
+    public List<Repair> findByPropertyId(Long propertyId) {
         try {
             entityManager.getTransaction().begin();
-            TypedQuery<Repair> query = entityManager.createQuery("SELECT repair FROM Repair repair WHERE p.owner.OwnerId = :ownerId", Repair.class);
-            query.setParameter("ownerId", ownerId);
+            TypedQuery<Repair> query = entityManager.createQuery(
+                    "SELECT repair FROM Repair repair WHERE repair.property.propertyId = :propertyId", Repair.class);
+            query.setParameter("propertyId", propertyId);
             List<Repair> repairs = query.getResultList();
             entityManager.getTransaction().commit();
             return repairs;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            log.error("Error finding repairs by owner ID: " + ownerId, e);
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            log.error("Error finding repairs by Property ID: " + propertyId, e);
         }
         return List.of();
     }

@@ -38,7 +38,6 @@ public class IOService implements IOServiceInterface {
         this.propertyRepository = propertyRepository;
         this.repairRepository = repairRepository;
     }
-    
 
     @Override
     public void saveOwnersToCsv(String filename) {
@@ -114,8 +113,7 @@ public class IOService implements IOServiceInterface {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
-//                if (data.length < 9) continue; 
-
+//                if (data.length < 9) continue;
                 Owner owner = new Owner();
                 owner.setUsername(data[1].trim());
                 owner.setPassword(data[2].trim());
@@ -143,7 +141,6 @@ public class IOService implements IOServiceInterface {
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
                 //if (data.length < 5) continue; 
-                
                 Property property = new Property();
                 property.setPropertyCode(Long.parseLong(data[1].trim()));
                 long pc = property.getPropertyCode();
@@ -160,8 +157,6 @@ public class IOService implements IOServiceInterface {
             }
         } catch (FileNotFoundException e) {
             log.error("Error reading properties from CSV file '{}'", filename, e);
-//        } catch (IllegalArgumentException e) {
-//            log.error("Invalid property type or VAT number format in file '{}'", filename, e);
         }
         return rowsRead;
     }
@@ -170,7 +165,7 @@ public class IOService implements IOServiceInterface {
     public int readRepairsFromCsv(String filename) {
         int rowsRead = 0;
         try (Scanner scanner = new Scanner(new File(filename))) {
-            scanner.nextLine(); 
+            scanner.nextLine();
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
@@ -215,7 +210,7 @@ public class IOService implements IOServiceInterface {
             return Long.parseLong(value.trim());
         } catch (NumberFormatException e) {
             log.warn("Invalid number format for value '{}'", value);
-            return -1; // Default or error value
+            return -1; 
         }
     }
 

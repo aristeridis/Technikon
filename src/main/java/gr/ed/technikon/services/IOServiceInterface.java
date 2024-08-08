@@ -1,8 +1,6 @@
 package gr.ed.technikon.services;
 
-
 public interface IOServiceInterface {
-
 
     void saveOwnersToCsv(String filename);
 

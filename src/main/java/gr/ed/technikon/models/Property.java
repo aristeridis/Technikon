@@ -52,5 +52,5 @@ public class Property {
         this.propertyCode = propertyCode;
         this.E9 = this.propertyCode;
 
-    }    
+    }
 }

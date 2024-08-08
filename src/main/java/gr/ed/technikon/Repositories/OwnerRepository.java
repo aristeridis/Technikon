@@ -1,7 +1,6 @@
 package gr.ed.technikon.Repositories;
 
 import gr.ed.technikon.models.Owner;
-import gr.ed.technikon.models.Property;
 import gr.ed.technikon.utility.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -17,7 +16,7 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
     public OwnerRepository() {
         entityManager = JPAUtil.getEntityManager();
     }
-    
+
     @Override
     public Optional<Owner> findByOwnerId(Long ownerId) {
         try {
@@ -35,7 +34,7 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         try {
             entityManager.getTransaction().begin();
             TypedQuery<Owner> query = entityManager.createQuery(
-                "SELECT o FROM Owner o WHERE o.VatNumber = :vatNumber AND o.deleted = false", Owner.class);
+                    "SELECT o FROM Owner o WHERE o.VatNumber = :vatNumber AND o.deleted = false", Owner.class);
             query.setParameter("vatNumber", vatNumber);
             Owner owner = query.getSingleResult();
             entityManager.getTransaction().commit();
@@ -52,7 +51,7 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         try {
             entityManager.getTransaction().begin();
             TypedQuery<Owner> query = entityManager.createQuery(
-                "SELECT o FROM Owner o WHERE o.Email = :email AND o.deleted = false", Owner.class);
+                    "SELECT o FROM Owner o WHERE o.Email = :email AND o.deleted = false", Owner.class);
             query.setParameter("email", email);
             Owner owner = query.getSingleResult();
             entityManager.getTransaction().commit();
@@ -77,7 +76,6 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         return Optional.empty();
     }
 
-    // STH TELIKH TO KANOUME KAI VAT
     @Override
     public boolean deleteById(Long ownerId) {
         Owner persistentInstance = entityManager.find(getEntityClass(), ownerId);
@@ -95,39 +93,35 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         return false;
     }
 
-   @Override
-        public List<Owner> findAll() {
+    @Override
+    public List<Owner> findAll() {
         TypedQuery<Owner> query = entityManager.createQuery(
-        "SELECT o FROM Owner o WHERE o.deletedOwner = false", Owner.class);                     
+                "SELECT o FROM Owner o WHERE o.deletedOwner = false", Owner.class);
         return query.getResultList();
-}
+    }
 
     private Class<Owner> getEntityClass() {
         return Owner.class;
     }
 
-//    private String getEntityClassName() {
-//        return Owner.class.getName();
-//    }
-    
     @Override
     public boolean safeDeleteById(Long ownerId) {
-    Owner persistentInstance = entityManager.find(getEntityClass(), ownerId);
-    if (persistentInstance != null) {
-        try {
-            entityManager.getTransaction().begin();
-            persistentInstance.setDeletedOwner(true);
-            entityManager.merge(persistentInstance); 
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            log.debug("Could not safely delete Owner", e);
-            entityManager.getTransaction().rollback();
-            return false;
+        Owner persistentInstance = entityManager.find(getEntityClass(), ownerId);
+        if (persistentInstance != null) {
+            try {
+                entityManager.getTransaction().begin();
+                persistentInstance.setDeletedOwner(true);
+                entityManager.merge(persistentInstance);
+                entityManager.getTransaction().commit();
+                return true;
+            } catch (Exception e) {
+                log.debug("Could not safely delete Owner", e);
+                entityManager.getTransaction().rollback();
+                return false;
+            }
         }
+        return false;
     }
-    return false;
-}
 
     @Override
     public Optional<Owner> update(Owner owner) {
@@ -151,11 +145,4 @@ public class OwnerRepository implements OwnerRepositoryInterface<Owner, Long, St
         }
         return Optional.empty();
     }
-    
-//    @Override
-//    public Optional<Owner> updateEmail(Owner owner) {
-//        Owner owner = findByOwnerId(ownerId);
-//        owner.setEmail(email);
-//    }
-
 }
